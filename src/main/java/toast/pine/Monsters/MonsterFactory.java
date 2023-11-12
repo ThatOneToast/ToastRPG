@@ -7,7 +7,6 @@ import toast.pine.ToastRPG;
 
 public class MonsterFactory {
 
-
     public static LivingEntity createMonster(String monsterName, Monster monster, LivingEntity livingEntity) {
         MonsterType monsterType = monster.getType();
 

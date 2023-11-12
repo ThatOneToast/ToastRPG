@@ -1,9 +1,11 @@
 package toast.pine.Monsters;
 
+import org.bukkit.entity.LivingEntity;
 import toast.pine.ToastRPG;
 
-public class MonsterType {
+public abstract class MonsterType {
 
+    protected LivingEntity entity;
     protected String typeName;
     protected int ProgressionLevel;
     protected int health;
@@ -14,6 +16,7 @@ public class MonsterType {
 
 
     public MonsterType(
+            LivingEntity entity,
             String typeName,
             int ProgressionLevel,
             int health,
@@ -22,6 +25,7 @@ public class MonsterType {
             float speed
     ) {
 
+        this.entity = entity;
         this.typeName = typeName;
         this.ProgressionLevel = ProgressionLevel;
         this.health = health;
@@ -33,6 +37,9 @@ public class MonsterType {
     }
 
 
+    public LivingEntity getEntity() {
+        return entity;
+    }
     public String getName() {
         return typeName;
     }
@@ -56,17 +63,6 @@ public class MonsterType {
     public float getSpeed() {
         return speed;
     }
-
-    public MonsterType getTypeFromString(String name) {
-        // Assuming you have a collection of MonsterTypes (monsterTypeList)
-        for (MonsterType type : ToastRPG.getMonsterManager().getMonsterTypes() ) {
-            if (type.getName().equals(name)) {
-                return type;
-            }
-        }
-        return null; // Return null if the name doesn't match any MonsterType
-    }
-
 
     public void setProgressionLevel(int progressionLevel) {
         ProgressionLevel = progressionLevel;

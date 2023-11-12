@@ -34,14 +34,17 @@ public class MonsterManager {
     }
 
     public Set<MonsterType> getMonsterTypes() {
-        return monsterTypes;
+        return Set.copyOf(monsterTypes);
     }
 
     public Map<LivingEntity, Monster> getMonsters() {
-        return monsters;
+        return Map.copyOf(monsters);
     }
 
 
+    public Boolean isMonster(LivingEntity entity) {
+        return monsters.containsKey(entity);
+    }
 
 
 

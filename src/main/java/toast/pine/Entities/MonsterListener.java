@@ -6,7 +6,7 @@ import toast.pine.Events.MonsterDeathEvent;
 import toast.pine.Events.MonsterSpawnEvent;
 import toast.pine.Events.MonsterTargetPlayerEvent;
 
-public abstract class MonsterListener implements Listener {
+public class MonsterListener implements Listener {
 
     private final EntityManager manager;
 

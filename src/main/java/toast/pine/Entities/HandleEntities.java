@@ -1,5 +1,6 @@
 package toast.pine.Entities;
 
+import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,21 +9,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import toast.pine.Events.MonsterDeathEvent;
-import toast.pine.Events.MonsterSpawnEvent;
-import toast.pine.Events.MonsterTargetPlayerEvent;
-import toast.pine.Extras;
-import toast.pine.Keys;
+import toast.pine.*;
+import toast.pine.Events.*;
 import toast.pine.Monsters.Monster;
-import toast.pine.PlayerAttributes;
-import toast.pine.ToastRPG;
 
 public class HandleEntities implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEntitySpawns(EntitySpawnEvent event) {
+    private void onEntitySpawns(EntitySpawnEvent event) {
 
         PersistentDataContainer container = event.getEntity().getPersistentDataContainer();
 
@@ -36,7 +34,7 @@ public class HandleEntities implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onMonsterSpawn(EntityTargetLivingEntityEvent event) {
+    private void onMonsterSpawn(EntityTargetLivingEntityEvent event) {
         if (event.getEntity() instanceof LivingEntity entity) {
             if (event.getTarget() instanceof Player player) {
                 if (ToastRPG.getMonsterManager().isMonster(entity)){
@@ -51,7 +49,7 @@ public class HandleEntities implements Listener {
 
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEntityDeath(EntityDeathEvent event) {
+    private void onEntityDeath(EntityDeathEvent event) {
 
         PersistentDataContainer container = event.getEntity().getPersistentDataContainer();
 
@@ -61,6 +59,24 @@ public class HandleEntities implements Listener {
             ToastRPG.getPassedPlugin().getServer().getPluginManager().callEvent(new MonsterDeathEvent(event.getEntity(), monster, monster.getType()));
         }
 
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    private void onPlayerRightClickCall(PlayerInteractEvent event) {
+
+        Player player = event.getPlayer();
+        ItemStack mainHand = player.getInventory().getItemInMainHand();
+        ItemStack offHand = player.getInventory().getItemInOffHand();
+        Block block = player.getTargetBlock(null, 5);
+        PlayerDirection direction = new PlayerDirection(player.getY(), player.getPitch());
+        Boolean isSneaking = player.isSneaking();
+
+
+        if (event.getAction().isLeftClick()) {
+            ToastRPG.getPassedPlugin().getServer().getPluginManager().callEvent(new PlayerLeftClickEvent(player, mainHand, offHand, block, direction, isSneaking));
+        } else if (event.getAction().isRightClick()) {
+            ToastRPG.getPassedPlugin().getServer().getPluginManager().callEvent(new PlayerRightCLickEvent(player, mainHand, offHand, block, direction, isSneaking));
+        }
     }
 
 

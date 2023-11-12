@@ -1,16 +1,9 @@
 package toast.pine.Classes;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import toast.pine.PlayerAttributes;
 import toast.pine.ToastRPG;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class CharacterClass {
     private final double maxMana;
@@ -70,40 +63,18 @@ public abstract class CharacterClass {
     }
 
 
-
-    private static ItemStack getClassItem(CharacterClass characterClass) {
-        ItemStack itemStack = new ItemStack(characterClass.getIcon());
-
-        ItemMeta meta = itemStack.getItemMeta();
-        meta.setDisplayName(ChatColor.GOLD + characterClass.getName());
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.GRAY + "Health: " + characterClass.getHealth() + " ❤");
-        lore.add(ChatColor.GRAY + "Damage: " + characterClass.getDamage() + " ☠");
-        lore.add(ChatColor.GRAY + "Max Mana: " + characterClass.getMaxMana() + " ✨");
-        lore.add(ChatColor.GRAY + "Mana Per Sec: " + characterClass.getManaPerSec() + " ✨");
-        lore.add(ChatColor.GRAY + "Defense: " + characterClass.getDefense() + " 🛡");
-        lore.add(ChatColor.GRAY + "Max Level: " + characterClass.getMaxLevel() + " ⚔");
-
-        meta.setLore(lore);
-
-        itemStack.setItemMeta(meta);
-
-        return itemStack;
-    }
-
     /**
     * Call this method to set the players attributes to the class's specifications.
     * @param player - The player to set the attributes of
     * @param characterClass - The class to set the attributes to
     * @param healthScale - The health scale to set the player to
      */
-    public static void enforceClass(Player player, CharacterClass characterClass, int healthScale) {
+    public void enforceClass(Player player, CharacterClass characterClass, int healthScale) {
         player.setHealthScale(healthScale);
 
         PlayerAttributes.setMaxHealth(player, characterClass.getHealth());
         player.setHealth(characterClass.getHealth());
+        PlayerAttributes.setDamage(player, characterClass.getDamage());
         PlayerAttributes.setDefense(player, characterClass.getDefense());
         PlayerAttributes.setMaxMana(player, characterClass.getMaxMana());
         PlayerAttributes.setManaPerSec(player, characterClass.getManaPerSec());

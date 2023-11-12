@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import toast.pine.LevelSystem.LevelManager;
 import toast.pine.PlayerAttributes;
+import toast.pine.ToastRPG;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +107,7 @@ public abstract class CharacterClass {
         PlayerAttributes.setDefense(player, characterClass.getDefense());
         PlayerAttributes.setMaxMana(player, characterClass.getMaxMana());
         PlayerAttributes.setManaPerSec(player, characterClass.getManaPerSec());
-        LevelManager.setMaxLevel(player, characterClass.getMaxLevel());
+        ToastRPG.getLevelManager().setMaxLevel(player, characterClass.getMaxLevel());
 
 
         player.setHealth(characterClass.getHealth());

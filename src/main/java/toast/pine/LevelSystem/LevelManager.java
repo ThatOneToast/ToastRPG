@@ -9,14 +9,14 @@ import toast.pine.ToastRPG;
 
 public class LevelManager {
 
-    private static int Experience_Until_Level_Up = 105;
+    private int Experience_Until_Level_Up = 105;
 
     /**
      * Sets the amount of experience needed to level up
      * @param amount The amount of experience needed to level up
      Default: 105
      */
-    public static void setExperience_Until_Level_Up(int amount) {
+    public void setExperience_Until_Level_Up(int amount) {
         Experience_Until_Level_Up = amount;
     }
 
@@ -24,7 +24,7 @@ public class LevelManager {
      * Gets the amount of experience needed to level up
      * @return The amount of experience needed to level up
      */
-    public static int getExperience_Until_Level_Up() {
+    public int getExperience_Until_Level_Up() {
         return Experience_Until_Level_Up;
     }
 
@@ -36,7 +36,7 @@ public class LevelManager {
      Note: If the player's experience is greater than or equal to the amount of experience needed to level up,
         the player will proceed to the next level.
      */
-    public static void addExperience(Player player, int amount) {
+    public void addExperience(Player player, int amount) {
         int currentLevel = player.getPersistentDataContainer().get(Keys.LEVEL, PersistentDataType.INTEGER);
         int EXP = player.getPersistentDataContainer().get(Keys.EXP, PersistentDataType.INTEGER);
         int MAX_LEVEL = player.getPersistentDataContainer().get(Keys.MAX_LEVEL, PersistentDataType.INTEGER);
@@ -56,7 +56,7 @@ public class LevelManager {
      * @param player The player to remove experience from
      * @param amount The amount of experience to remove
      */
-    public static void removeExperience(Player player, int amount) {
+    public void removeExperience(Player player, int amount) {
         int EXP = player.getPersistentDataContainer().get(Keys.EXP, PersistentDataType.INTEGER);
 
         player.getPersistentDataContainer().set(Keys.EXP, PersistentDataType.INTEGER, EXP - amount);
@@ -69,7 +69,7 @@ public class LevelManager {
      * @param amount The amount of experience to set
      Note: This is not intended for use, please use addExperience or removeExperience instead.
      */
-    public static void setExperience(Player player, int amount) {
+    public void setExperience(Player player, int amount) {
         player.getPersistentDataContainer().set(Keys.EXP, PersistentDataType.INTEGER, amount);
     }
 
@@ -80,7 +80,7 @@ public class LevelManager {
      Note: This will grant the rewards upon leveling up, just as addExperience does.
         This method can be finicky at times.
      */
-    public static void setLevel(Player player, int LEVEL) {
+    public void setLevel(Player player, int LEVEL) {
         int MAX_LEVEL = player.getPersistentDataContainer().get(Keys.MAX_LEVEL, PersistentDataType.INTEGER);
         int currentLevel = player.getPersistentDataContainer().get(Keys.LEVEL, PersistentDataType.INTEGER);
 
@@ -99,7 +99,7 @@ public class LevelManager {
      * @param player The player to set the max level of
      * @param MAX_LEVEL The max level to set the player to
      */
-    public static void setMaxLevel(Player player, int MAX_LEVEL) {
+    public void setMaxLevel(Player player, int MAX_LEVEL) {
         player.getPersistentDataContainer().set(Keys.MAX_LEVEL, PersistentDataType.INTEGER, MAX_LEVEL);
     }
 
@@ -108,7 +108,7 @@ public class LevelManager {
      * @param player The player to get the experience of
      * @return The player's experience
      */
-    public static Integer getExperience(Player player) {
+    public Integer getExperience(Player player) {
         return player.getPersistentDataContainer().get(Keys.EXP, PersistentDataType.INTEGER);
     }
 
@@ -117,7 +117,7 @@ public class LevelManager {
      * @param player The player to get the level of
      * @return The player's level
      */
-    public static Integer getLevel(Player player) {
+    public Integer getLevel(Player player) {
         return player.getPersistentDataContainer().get(Keys.LEVEL, PersistentDataType.INTEGER);
     }
 
@@ -126,7 +126,7 @@ public class LevelManager {
      * @param player The player to get the max level of
      * @return The player's max level
      */
-    public static Integer getMaxLevel(Player player) {
+    public Integer getMaxLevel(Player player) {
         return player.getPersistentDataContainer().get(Keys.MAX_LEVEL, PersistentDataType.INTEGER);
     }
 

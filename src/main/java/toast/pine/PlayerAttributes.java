@@ -6,13 +6,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PlayerAttributes extends BukkitRunnable implements Listener {
+public class PlayerAttributes implements Listener {
 
     /**
      @param player - The player to set the damage attribute of
@@ -276,28 +275,6 @@ public class PlayerAttributes extends BukkitRunnable implements Listener {
         playerData.set(Keys.MANA_PER, PersistentDataType.DOUBLE, manaPerSec);
     }
 
-    /**
-     * This task starts the mana regeneration for all players
-     */
-    @Override
-    public void run() {
-        // Loop through all online players and update their mana
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            double currentMana = mana.getOrDefault(player.getUniqueId(), 0.0);
-            double manaPerSec = getManaPerSec(player);
-
-            currentMana += manaPerSec;
-
-            // Ensure that the current mana doesn't exceed the maximum mana
-            double maxMana = getMaxMana(player);
-            if (currentMana > maxMana) {
-                currentMana = maxMana;
-            }
-
-            // Update the player's mana in the mana map
-            mana.put(player.getUniqueId(), currentMana);
-        }
-    }
 
 
 }

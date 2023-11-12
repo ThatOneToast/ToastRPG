@@ -2,7 +2,6 @@ package toast.pine.Monsters;
 
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
-import toast.pine.Adapters.AdapterManager;
 import toast.pine.Keys;
 import toast.pine.ToastRPG;
 
@@ -27,7 +26,7 @@ public class MonsterFactory {
         livingEntity.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(defense);
         if (speed != 0) livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);
 
-        livingEntity.getPersistentDataContainer().set(Keys.MONSTER_TYPE, AdapterManager.getMonsterAdapter(), monster);
+        livingEntity.getPersistentDataContainer().set(Keys.MONSTER_TYPE, ToastRPG.getAdapterManager().getMonsterAdapter(), monster);
         ToastRPG.getMonsterManager().addMonster(livingEntity, monster);
 
         return livingEntity;

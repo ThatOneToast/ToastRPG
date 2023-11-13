@@ -1,11 +1,10 @@
 package toast.pine.Classes.Skills;
 
 import toast.pine.Classes.CharacterClass;
-import toast.pine.Classes.Skills.Interfaces.SkillInterface;
 
 import java.util.List;
 
-public abstract class Skill extends CharacterClass implements SkillInterface {
+public abstract class Skill extends CharacterClass  {
 
     protected final String skillName;
     protected final CharacterClass intendedClassUse;
@@ -29,6 +28,7 @@ public abstract class Skill extends CharacterClass implements SkillInterface {
         this.skillCost = skillCost;
         this.skillCooldown = skillCooldown;
     }
+
 
     public String getSkillName() {
         return skillName;

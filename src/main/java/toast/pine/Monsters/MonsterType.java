@@ -2,32 +2,27 @@ package toast.pine.Monsters;
 
 import org.bukkit.entity.LivingEntity;
 import toast.pine.ToastRPG;
-
-public abstract class MonsterType {
-
-    protected LivingEntity entity;
+public abstract class MonsterType<T extends LivingEntity> {
+    protected Class<T> entity;
     protected String typeName;
-    protected int ProgressionLevel;
+    protected int progressionLevel;
     protected int health;
     protected double damage;
     protected double defense;
     protected float speed;
 
-
-
     public MonsterType(
-            LivingEntity entity,
+            Class<T> entity,
             String typeName,
-            int ProgressionLevel,
+            int progressionLevel,
             int health,
             double damage,
             double defense,
             float speed
     ) {
-
         this.entity = entity;
         this.typeName = typeName;
-        this.ProgressionLevel = ProgressionLevel;
+        this.progressionLevel = progressionLevel;
         this.health = health;
         this.damage = damage;
         this.defense = defense;
@@ -36,16 +31,25 @@ public abstract class MonsterType {
         ToastRPG.getMonsterManager().addMonsterType(this);
     }
 
-
-    public LivingEntity getEntity() {
+    public Class<T> getEntityClass() {
         return entity;
     }
+
+    public LivingEntity getEntity() {
+        try {
+            return entity.getConstructor().newInstance();
+        } catch (Exception e) {
+            ToastRPG.getPassedPlugin().getLogger().log(java.util.logging.Level.SEVERE, "Failed to create entity of type " + entity.getName() + "! ", e);
+            return null;
+        }
+    }
+
     public String getName() {
         return typeName;
     }
 
     public int getProgressionLevel() {
-        return ProgressionLevel;
+        return progressionLevel;
     }
 
     public int getHealth() {
@@ -64,8 +68,8 @@ public abstract class MonsterType {
         return speed;
     }
 
-    public void setProgressionLevel(int progressionLevel) {
-        ProgressionLevel = progressionLevel;
+    public void setProgressionLevel(int value) {
+        progressionLevel = value;
     }
 
     public void setHealth(int health) {

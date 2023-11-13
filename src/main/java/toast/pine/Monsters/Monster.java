@@ -11,7 +11,7 @@ public abstract class Monster extends MonsterType {
     protected String monsterName;
 
     public Monster(MonsterType type, String monsterName) {
-        super(type.getEntity(), type.getName(), type.getProgressionLevel(), type.getHealth(), type.getDamage(), type.getDefense(), type.getSpeed());
+        super(type.getEntityClass(), type.getName(), type.getProgressionLevel(), type.getHealth(), type.getDamage(), type.getDefense(), type.getSpeed());
         this.type = type;
         this.monsterName = monsterName;
     }
@@ -28,8 +28,9 @@ public abstract class Monster extends MonsterType {
         this.type = type;
     }
 
-    public LivingEntity create(String monsterName, LivingEntity livingEntity) {
+    public LivingEntity create() {
         MonsterType monsterType = this.getType();
+        LivingEntity livingEntity = monsterType.getEntity();
 
         int health = monsterType.getHealth();
         double damage = monsterType.getDamage();

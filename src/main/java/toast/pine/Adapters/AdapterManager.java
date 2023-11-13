@@ -6,6 +6,7 @@ public class AdapterManager {
     private final MonsterTypeAdapter monsterTypeAdapter = new MonsterTypeAdapter();
     private final ItemAdapter itemAdapter = new ItemAdapter();
     private final ItemMaterialAdapter itemTypeAdapter = new ItemMaterialAdapter();
+    private final SocialProfileAdapter socialProfileAdapter = new SocialProfileAdapter();
 
 
     public MonsterAdapter getMonsterAdapter() {
@@ -23,6 +24,10 @@ public class AdapterManager {
 
     public ItemMaterialAdapter getItemMaterialAdapter() {
         return itemTypeAdapter;
+    }
+
+    public SocialProfileAdapter getSocialProfileAdapter() {
+        return socialProfileAdapter;
     }
 
 }

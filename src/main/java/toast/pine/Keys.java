@@ -12,6 +12,10 @@ public class Keys {
     public static final NamespacedKey MONSTER_TYPE = new NamespacedKey("ToastRPG", "monster_type");
     public static final NamespacedKey ITEM = new NamespacedKey("ToastRPG", "item");
 
+    public static final NamespacedKey SOCIAL_PROFILE = new NamespacedKey("ToastRPG", "social_profile");
+    public static final NamespacedKey SOCIAL_GROUP_INVITE = new NamespacedKey("ToastRPG", "social_group_invite");
+    public static final NamespacedKey SOCIAL_FRIEND_INVITE = new NamespacedKey("ToastRPG", "social_friend_invite");
+
 
     public static final NamespacedKey ITEM__ATTACK_DAMAGE = new NamespacedKey("ToastRPG", "item_damage");
     public static final NamespacedKey ITEM_HEALTH = new NamespacedKey("ToastRPG", "item_health");

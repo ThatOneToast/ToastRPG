@@ -1,6 +1,8 @@
 package toast.pine.Classes.Skills;
 
-public abstract class SkillDuration extends Skill{
+import toast.pine.Classes.Skills.Interfaces.SkillDurationInterface;
+
+public abstract class SkillDuration extends Skill implements SkillDurationInterface {
     protected Skill skill;
     protected double skillDuration;
 

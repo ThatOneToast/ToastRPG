@@ -66,10 +66,10 @@ public abstract class CharacterClass {
     /**
     * Call this method to set the players attributes to the class's specifications.
     * @param player - The player to set the attributes of
-    * @param characterClass - The class to set the attributes to
     * @param healthScale - The health scale to set the player to
      */
-    public void enforceClass(Player player, CharacterClass characterClass, int healthScale) {
+    public void enforceClass(Player player, int healthScale) {
+        CharacterClass characterClass = this;
         player.setHealthScale(healthScale);
 
         PlayerAttributes.setMaxHealth(player, characterClass.getHealth());

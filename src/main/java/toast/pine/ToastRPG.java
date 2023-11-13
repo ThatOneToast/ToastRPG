@@ -6,7 +6,7 @@ import toast.pine.Adapters.AdapterManager;
 import toast.pine.Classes.Items.ItemListener;
 import toast.pine.Classes.Items.ItemManager;
 import toast.pine.Entities.EntityManager;
-import toast.pine.Entities.MonsterListener;
+import toast.pine.Monsters.MonsterListener;
 import toast.pine.LevelSystem.LevelManager;
 import toast.pine.Monsters.MonsterManager;
 
@@ -21,6 +21,12 @@ public class ToastRPG {
     private static ItemManager itemManager;
 
 
+    /**
+     * Passes the plugin to the ToastRPG class
+     * @param passedPlugin The plugin that is passed to the ToastRPG class
+    Note: This will also create the following managers: EntityManager, MonsterManager, LevelManager, AdapterManager also starts
+     the mana regen task.
+     */
     public static void passPluginToToast(final JavaPlugin passedPlugin) {
         ToastRPG.passedPlugin = passedPlugin;
         ToastRPG.entityManager = new EntityManager();
@@ -59,6 +65,7 @@ public class ToastRPG {
     public static LevelManager getLevelManager() {
         return levelManager;
     }
+
 
     public static AdapterManager getAdapterManager() {
         return adapterManager;

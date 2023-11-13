@@ -1,7 +1,8 @@
-package toast.pine.Entities;
+package toast.pine.Monsters;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import toast.pine.Entities.EntityManager;
 import toast.pine.Events.MonsterDeathEvent;
 import toast.pine.Events.MonsterSpawnEvent;
 import toast.pine.Events.MonsterTargetPlayerEvent;

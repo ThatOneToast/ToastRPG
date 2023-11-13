@@ -1,6 +1,8 @@
 package toast.pine.Classes.Skills;
 
-public abstract class SkillAOE extends Skill {
+import toast.pine.Classes.Skills.Interfaces.SkillAOEInterface;
+
+public abstract class SkillAOE extends Skill implements SkillAOEInterface {
 
     protected final Skill skill;
     protected final int skillRadius;

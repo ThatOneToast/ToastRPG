@@ -1,5 +1,10 @@
 package toast.pine.Monsters;
 
+import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.LivingEntity;
+import toast.pine.Keys;
+import toast.pine.ToastRPG;
+
 public abstract class Monster extends MonsterType {
 
     protected MonsterType type;
@@ -23,6 +28,31 @@ public abstract class Monster extends MonsterType {
         this.type = type;
     }
 
+    public LivingEntity create(String monsterName, LivingEntity livingEntity) {
+        MonsterType monsterType = this.getType();
+
+        int health = monsterType.getHealth();
+        double damage = monsterType.getDamage();
+        double defense = monsterType.getDefense();
+        float speed = monsterType.getSpeed();
+
+        livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(health);
+        livingEntity.setHealth(health);
+
+        livingEntity.setCustomName(monsterName);
+        livingEntity.setCustomNameVisible(true);
+
+        livingEntity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(damage);
+        livingEntity.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(defense);
+        if (speed != 0) livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(speed);
+
+        livingEntity.getPersistentDataContainer().set(Keys.MONSTER_TYPE, ToastRPG.getAdapterManager().getMonsterAdapter(), this);
+        ToastRPG.getMonsterManager().addMonster(livingEntity, this);
+
+        return livingEntity;
+
+
+    }
 
 
 

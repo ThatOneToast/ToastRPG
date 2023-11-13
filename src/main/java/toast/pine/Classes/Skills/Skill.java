@@ -8,15 +8,15 @@ public abstract class Skill extends CharacterClass  {
 
     protected final String skillName;
     protected final CharacterClass intendedClassUse;
-    protected final SkillAOE skillAOE;
-    protected final SkillDuration skillDuration;
+    protected final double skillAOE;
+    protected final double skillDuration;
     protected final List<String> skillDescription;
     protected final int skillLevel;
     protected final int skillMaxLevel;
     protected final int skillCost;
     protected final int skillCooldown;
 
-    public Skill(String skillName, SkillAOE skillAOE, SkillDuration skillDuration, CharacterClass intendedClassUse, List<String> skillDescription, int skillLevel, int skillMaxLevel, int skillCost, int skillCooldown) {
+    public Skill(String skillName, double skillAOE, double skillDuration, CharacterClass intendedClassUse, List<String> skillDescription, int skillLevel, int skillMaxLevel, int skillCost, int skillCooldown) {
         super(intendedClassUse.getName(), intendedClassUse.getIcon(), intendedClassUse.getHealth(), intendedClassUse.getDamage(), intendedClassUse.getMaxMana(), intendedClassUse.getManaPerSec(), intendedClassUse.getDefense(), intendedClassUse.getMaxLevel());
         this.skillName = skillName;
         this.skillAOE = skillAOE;
@@ -34,11 +34,11 @@ public abstract class Skill extends CharacterClass  {
         return skillName;
     }
 
-    public SkillAOE getSkillAOE() {
+    public double getSkillAOE() {
         return skillAOE;
     }
 
-    public SkillDuration getSkillDuration() {
+    public double getSkillDuration() {
         return skillDuration;
     }
 

@@ -1,9 +1,8 @@
 package toast.pine.SocialSystem;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import toast.pine.ToastRPG;
+
+import java.util.*;
 
 public class Group {
 
@@ -15,46 +14,89 @@ public class Group {
     protected Map<PlayerSocial, Date> playerJoinDate;
     protected Map<PlayerSocial, Date> playerLeaveDate;
 
-    public Group(PlayerSocial leader, Set<PlayerSocial> members, Date dateCreated, String groupName, List<String> groupDescription, Map<PlayerSocial, Date> playerJoinDate, Map<PlayerSocial, Date> playerLeaveDate) {
+    /**
+     * Creates a new group.
+     * @param leader The leader of the group.
+     * @param groupName The name of the group.
+     * @param groupDescription The description of the group.
+     */
+    public Group(PlayerSocial leader, String groupName, List<String> groupDescription) {
         this.leader = leader;
-        this.members = members;
-        this.dateCreated = dateCreated;
         this.groupName = groupName;
         this.groupDescription = groupDescription;
-        this.playerJoinDate = playerJoinDate;
-        this.playerLeaveDate = playerLeaveDate;
+
+        this.members = new HashSet<>();
+        this.dateCreated = new Date();
+        this.playerJoinDate = new HashMap<>();
+        this.playerLeaveDate = new HashMap<>();
+
+
+        members.add(leader);
+        leader.addPermission("group.manage");
+        playerJoinDate.put(leader, new Date());
+        ToastRPG.getSocialManager().addGroup(this);
     }
 
+    /**
+     * Gets the leader of the group.
+     * @return The leader of the group.
+     */
+    public PlayerSocial getLeader() {
+        return leader;
+    }
+
+    /**
+     * Sets the leader of the group.
+     * @param leader The new leader of the group.
+     */
     public void setLeader(PlayerSocial leader) {
         this.leader = leader;
     }
 
+    /**
+     * Removes a member from the group.
+     * @param member The member to remove.
+     */
     public void removeMember(PlayerSocial member) {
         this.members.remove(member);
-    }
-    public void addMember(PlayerSocial member) {
-        this.members.add(member);
+        setPlayerLeaveDate(member);
     }
 
+    /**
+     * Adds a member to the group.
+     * @param member The member to add.
+     */
+    public void addMember(PlayerSocial member) {
+        this.members.add(member);
+        setPlayerJoinDate(member);
+    }
+
+    /**
+     * Sets the name of the group
+     * @param groupName  The new name of the group.
+     */
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
 
+    /**
+     * Sets the description of the group.
+     * @param groupDescription The new description of the group.
+     */
     public void setGroupDescription(List<String> groupDescription) {
         this.groupDescription = groupDescription;
     }
 
-    public void setPlayerJoinDate(Map<PlayerSocial, Date> playerJoinDate) {
-        this.playerJoinDate = playerJoinDate;
+
+    void setPlayerJoinDate(PlayerSocial player) {
+        playerJoinDate.put(player, new Date());
     }
 
-    public void setPlayerLeaveDate(Map<PlayerSocial, Date> playerLeaveDate) {
-        this.playerLeaveDate = playerLeaveDate;
+    void setPlayerLeaveDate(PlayerSocial player) {
+        playerLeaveDate.put(player, new Date());
     }
 
-    public PlayerSocial getLeader() {
-        return leader;
-    }
+
 
     public Set<PlayerSocial> getMembers() {
         return Set.copyOf(members);
@@ -73,12 +115,22 @@ public class Group {
         return List.copyOf(groupDescription);
     }
 
-    public Map<PlayerSocial, Date> getPlayerJoinDate() {
-        return Map.copyOf(playerJoinDate);
+    /**
+     * Gets the date the player joined the group.
+     * @param player The player to get the join date of.
+     * @return The date the player joined the group.
+     */
+    public Date getPlayerJoinDate(PlayerSocial player) {
+        return playerJoinDate.get(player);
     }
 
-    public Map<PlayerSocial, Date> getPlayerLeaveDate() {
-        return Map.copyOf(playerLeaveDate);
+    /**
+     * Gets the date the player left the group.
+     * @param player The player to get the leave date of.
+     * @return The date the player left the group.
+     */
+    public Date getPlayerLeaveDate(PlayerSocial player) {
+        return playerLeaveDate.get(player);
     }
 
 
@@ -90,6 +142,11 @@ public class Group {
         this.groupDescription = null;
         this.playerJoinDate = null;
         this.playerLeaveDate = null;
+        ToastRPG.getSocialManager().deleteGroup(this);
+    }
+
+    public boolean isInGroupWith(PlayerSocial player) {
+        return this.members.contains(player);
     }
 
 

@@ -36,7 +36,7 @@ public class EntityManager {
     }
 
     public void handlerMonsterTarget(MonsterTargetPlayerEvent event) {
-        EntityHandler handler = this.activeLivingEntities.get(event.getMonster().getEntity());
+        EntityHandler handler = this.activeLivingEntities.get(event.getMonster().getLivingEntity());
         if (handler != null) {
             handler.onMonsterTarget(event);
         }

@@ -13,6 +13,8 @@ public class PlayerJoin implements Listener {
     private void onPlayerJoin(PlayerJoinEvent event) {
         PersistentDataContainer playerData = event.getPlayer().getPersistentDataContainer();
 
-        playerData.set(Keys.SOCIAL_PROFILE, ToastRPG.getAdapterManager().getSocialProfileAdapter(), new PlayerSocial(null, event.getPlayer(), null, null));
+        if (!event.getPlayer().hasPlayedBefore()) {
+            playerData.set(Keys.SOCIAL_PROFILE, ToastRPG.getAdapterManager().getSocialProfileAdapter(), new PlayerSocial(null, event.getPlayer(), null, null));
+        }
     }
 }

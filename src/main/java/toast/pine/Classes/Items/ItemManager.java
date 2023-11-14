@@ -1,6 +1,5 @@
 package toast.pine.Classes.Items;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -11,6 +10,7 @@ import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
+import toast.pine.ColorAPI.Colors;
 import toast.pine.Events.PlayerLeftClickEvent;
 import toast.pine.Events.PlayerRightCLickEvent;
 import toast.pine.Keys;
@@ -75,13 +75,13 @@ public class ItemManager implements Listener {
 
 
         List<String> lore = item.getItemLore();
-        lore.addFirst(ChatColor.GOLD + "--- Item Description ---" + ChatColor.RESET);
+        lore.addFirst(Colors.GOLD + "--- Item Description ---" + Colors.RESET);
         lore.addFirst("");
 
         lore.add("");
         lore.add("");
 
-        lore.add(ChatColor.GOLD + "--- Item Stats ---" + ChatColor.RESET);
+        lore.add(Colors.GOLD + "--- Item Stats ---" + Colors.RESET);
         lore.addAll(item.getItemStats());
 
         PersistentDataContainer container = itemMeta.getPersistentDataContainer();

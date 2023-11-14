@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import toast.pine.Classes.Quests.Quest;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -12,26 +13,13 @@ public class SocialManager implements Listener {
 
     private final Set<Group> groups = new HashSet<>();
     private final Map<UUID, Consumer<String>> nextMessageCallbacks = new HashMap<>();
+    private final Set<Quest> questSet = new HashSet<>();
 
-    public Group createGroup(PlayerSocial leader, String groupName, List<String> groupDescription) {
-        Map<PlayerSocial, Date> playerJoinDate = new HashMap<>();
-        Map<PlayerSocial, Date> playerLeaveDate = new HashMap<>();
-        Set<PlayerSocial> members = new HashSet<>();
-        List<String> permissions = new ArrayList<>();
-        Date dateCreated = new Date();
-
-        permissions.add("group.manage");
-        leader.setPermissions(permissions);
-
-        playerJoinDate.put(leader, dateCreated);
-
-        return new Group(leader, members, dateCreated, groupName, groupDescription, playerJoinDate, playerLeaveDate);
-
-    }
 
     public Map<UUID, Consumer<String>> getNextMessageCallbacks() {
         return Map.copyOf(nextMessageCallbacks);
     }
+
 
     public void addNextMessageCallback(UUID playerId, Consumer<String> callback) {
         nextMessageCallbacks.put(playerId, callback);
@@ -41,6 +29,11 @@ public class SocialManager implements Listener {
         nextMessageCallbacks.remove(playerId);
     }
 
+    /**
+     * Gets a group by String name
+     * @param groupName The name of the group.
+     * @return The group.
+     */
     public Group findGroupByName(String groupName) {
         for (Group group : groups) {
             if (group.groupName.equals(groupName)) {
@@ -51,19 +44,32 @@ public class SocialManager implements Listener {
     }
 
 
-    public void addGroup(Group group) {
+    void addGroup(Group group) {
         groups.add(group);
     }
 
 
-    public void deleteGroup(Group group) {
+    void deleteGroup(Group group) {
         group.clearGroup();
         groups.remove(group);
     }
 
+    public void addQuest(Quest quest) {
+        questSet.add(quest);
+    }
+
+    public void removeQuest(Quest quest) {
+        questSet.remove(quest);
+    }
+
+    public Set<Quest> getQuests() {
+        return Set.copyOf(questSet);
+    }
+
+
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent event) {
+    private void onChat(AsyncPlayerChatEvent event) {
         Player receiver = event.getPlayer();
         UUID playerId = receiver.getUniqueId();
 

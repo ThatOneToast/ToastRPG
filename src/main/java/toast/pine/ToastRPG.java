@@ -1,15 +1,25 @@
 package toast.pine;
 
+import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import revxrsal.commands.bukkit.BukkitCommandHandler;
 import toast.pine.Adapters.AdapterManager;
 import toast.pine.Classes.Items.ItemListener;
 import toast.pine.Classes.Items.ItemManager;
+import toast.pine.Commands.addFriend;
+import toast.pine.Commands.removeFriend;
 import toast.pine.Entities.EntityManager;
 import toast.pine.LevelSystem.LevelManager;
 import toast.pine.Monsters.MonsterListener;
 import toast.pine.Monsters.MonsterManager;
+import toast.pine.SocialSystem.PlayerSocial;
 import toast.pine.SocialSystem.SocialManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ToastRPG {
 
@@ -27,7 +37,8 @@ public class ToastRPG {
      * Passes the plugin to the ToastRPG class
      * @param passedPlugin The plugin that is passed to the ToastRPG class
     Note: This will also create the following managers: EntityManager, MonsterManager, LevelManager, AdapterManager also starts
-     the mana regen task.
+    the mana regen task.
+    Adds the following commands: addFriend, removeFriend
      */
     public static void passPluginToToast(final JavaPlugin passedPlugin) {
         ToastRPG.passedPlugin = passedPlugin;
@@ -38,6 +49,24 @@ public class ToastRPG {
         ToastRPG.adapterManager = new AdapterManager();
         ToastRPG.itemManager = new ItemManager();
         ToastRPG.socialManager = new SocialManager();
+
+        BukkitCommandHandler commands = BukkitCommandHandler.create(passedPlugin);
+        commands.register(new addFriend());
+        commands.register(new removeFriend());
+        commands.getAutoCompleter().registerParameterSuggestions(removeFriend.class, (args, sender, command) -> {
+
+            Player stranger = (Player) sender;
+            PersistentDataContainer senderPDC = stranger.getPersistentDataContainer();
+            PlayerSocial senderSocial = senderPDC.get(Keys.SOCIAL_PROFILE, ToastRPG.getAdapterManager().getSocialProfileAdapter());
+            List<String> friends = new ArrayList<>();
+
+            for (PlayerSocial friend : senderSocial.getFriends().getFriends()) {
+                friends.add(friend.getPlayer().getName());
+            }
+
+            return friends;
+        });
+
 
         getManaRegen().startManaUpdateTask();
         ToastRPG.getPassedPlugin().getServer().getPluginManager().registerEvents(new ItemListener(itemManager), getPassedPlugin());

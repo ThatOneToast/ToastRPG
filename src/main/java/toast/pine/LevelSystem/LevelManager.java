@@ -1,8 +1,8 @@
 package toast.pine.LevelSystem;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
+import toast.pine.ColorAPI.Colors;
 import toast.pine.Events.PlayerLevelUpEvent;
 import toast.pine.Keys;
 import toast.pine.ToastRPG;
@@ -85,7 +85,7 @@ public class LevelManager {
         int currentLevel = player.getPersistentDataContainer().get(Keys.LEVEL, PersistentDataType.INTEGER);
 
         if (LEVEL >= MAX_LEVEL) {
-            player.sendMessage(ChatColor.RED + "You have reached the max LEVEL!");
+            player.sendMessage(Colors.RED + "You have reached the max LEVEL!");
             player.getPersistentDataContainer().set(Keys.LEVEL, PersistentDataType.INTEGER, MAX_LEVEL);
         } else {
             for (int i = 0; i < LEVEL; i++); {

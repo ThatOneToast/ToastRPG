@@ -1,26 +1,23 @@
 package toast.pine.Events;
 
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 import toast.pine.SocialSystem.Group;
 import toast.pine.SocialSystem.PlayerSocial;
 
-public class PlayerSendGroupInviteEvent extends Event implements Cancellable {
+public class PlayerSendGroupInviteEvent extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
     private final PlayerSocial sender;
     private final PlayerSocial receiver;
     private final Group group;
-    private Boolean cancelled;
 
     public PlayerSendGroupInviteEvent(PlayerSocial sender, PlayerSocial receiver, Group group) {
         this.sender = sender;
         this.receiver = receiver;
         this.group = group;
-        this.cancelled = false;
     }
 
 
@@ -41,17 +38,7 @@ public class PlayerSendGroupInviteEvent extends Event implements Cancellable {
         return HANDLERS;
     }
 
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
 
-    public void setCancelled(Boolean bool){
-        this.cancelled = bool;
-    }
 
-    @Override
-    public void setCancelled(boolean cancel) {
 
-    }
 }

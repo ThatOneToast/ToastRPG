@@ -5,32 +5,70 @@ import org.bukkit.entity.LivingEntity;
 import toast.pine.Keys;
 import toast.pine.ToastRPG;
 
-public abstract class Monster extends MonsterType {
+public abstract class Monster<T extends LivingEntity> extends MonsterType {
 
+    protected Class<T> entity;
+    protected LivingEntity livingEntity;
     protected MonsterType type;
     protected String monsterName;
 
-    public Monster(MonsterType type, String monsterName) {
-        super(type.getEntityClass(), type.getName(), type.getProgressionLevel(), type.getHealth(), type.getDamage(), type.getDefense(), type.getSpeed());
+
+    /**
+     * Creating the monster class
+     * @param entityClass The entity class
+     * @param type The monster type
+     * @param monsterName The monster name
+        Note: This will also create the monster's living entity,
+     you can access it by using the getLivingEntity() method.
+     @see toast.pine.Monsters.Monster#getLivingEntity()
+     */
+    public Monster(Class<T> entityClass, MonsterType type, String monsterName) {
+        super(type.getName(), type.getHealth(), type.getDamage(), type.getDefense(), type.getSpeed());
+        this.entity = entityClass;
         this.type = type;
         this.monsterName = monsterName;
+
+
+        this.livingEntity = create();
+
     }
 
+
+    /**
+     * Gets the living entity of the monster
+     * @return The living entity of the monster
+     */
+    public LivingEntity getLivingEntity() {
+        return livingEntity;
+    }
+
+
+    /**
+     * Gets the monster type
+     * @return The monster type
+     */
     public MonsterType getType() {
         return type;
     }
 
+    /**
+     * Gets the monster name
+     * @return The monster name
+     */
     public String getName() {
         return monsterName;
     }
 
+    /**
+     * Sets the monster type
+     * @param type The monster type
+     */
     public void setType(MonsterType type) {
         this.type = type;
     }
 
-    public LivingEntity create() {
+     LivingEntity create() {
         MonsterType monsterType = this.getType();
-        LivingEntity livingEntity = monsterType.getEntity();
 
         int health = monsterType.getHealth();
         double damage = monsterType.getDamage();

@@ -6,7 +6,7 @@
 
     <groupId>toast.pine</groupId>
     <artifactId>ToastRPG</artifactId>
-    <version>1.0.3-ALPHA</version>
+    <version>1.0.4-ALPHA-Kotlin</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -81,6 +81,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <executions>
                     <execution>
                         <id>default-compile</id>

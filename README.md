@@ -15,7 +15,7 @@ Create a new Spigot or Paper project, go to your pom.xml and add the following r
 <dependency>
     <groupId>com.github.ToastArgumentative</groupId>
     <artifactId>ToastRPG</artifactId>
-    <version>v1.0.3-ALPHA</version>
+    <version>v1.0.5-ALPHA-rev2</version>
     <scope>jar</scope>
 </dependency>
 

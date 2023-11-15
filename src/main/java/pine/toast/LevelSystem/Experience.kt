@@ -10,7 +10,6 @@ class Experience : Listener {
     @EventHandler
     fun onExperiencePickUp(event: PlayerExpChangeEvent) {
         val player: Player = event.player
-        val currentLevel: Any? = ToastRPG.getLevelManager()?.getLevel(player) ?:
         ToastRPG.getLevelManager()?.addExperience(player, event.amount)
     }
 

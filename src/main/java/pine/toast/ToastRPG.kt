@@ -16,6 +16,7 @@ import toast.pine.Adapters.AdapterManager
 import toast.pine.Classes.Items.ItemListener
 import toast.pine.Classes.Items.ItemManager
 import toast.pine.Entities.EntityManager
+import toast.pine.LevelSystem.Experience
 import toast.pine.LevelSystem.LevelManager
 import toast.pine.Monsters.MonsterListener
 import toast.pine.Monsters.MonsterManager
@@ -74,6 +75,7 @@ object ToastRPG {
         ToastRPG.passedPlugin!!.server.pluginManager.registerEvents(ItemListener(itemManager!!), ToastRPG.passedPlugin!!)
         ToastRPG.passedPlugin!!.server.pluginManager.registerEvents(MonsterListener(entityManager!!), ToastRPG.passedPlugin!!)
         ToastRPG.passedPlugin!!.server.pluginManager.registerEvents(SocialManager(), ToastRPG.passedPlugin!!)
+        ToastRPG.passedPlugin!!.server.pluginManager.registerEvents(Experience(), ToastRPG.passedPlugin!!)
 
         val gson = Gson()
         val worldEventsJson = File(passedPlugin.dataFolder, "ToastRPGLibrary/WorldEvents.json").apply { createNewFile() }

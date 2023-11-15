@@ -10,7 +10,8 @@ Create a new Spigot or Paper project, go to your pom.xml and add the following r
     <id>jitpack.io</id>
     <url>https://jitpack.io</url>
 </repository>
-
+```
+```xml
 <dependency>
     <groupId>com.github.ToastArgumentative</groupId>
     <artifactId>ToastRPG</artifactId>
@@ -24,6 +25,7 @@ Once these are added, you want to reload maven and head to your `onEnable()` met
 onto Toast me :). 
 
 ```java
+public class Main extends JavaPlugin {
 private static Instance plugin;
 
     @Override
@@ -33,10 +35,17 @@ private static Instance plugin;
         ToastRPG.passPluginToToast(this);
 
     }
+    
+    @Override
+    public void onDisable() {
+        // Plugin shutdown logic
+        takePluginFromToast();
+    }
 
     public static Instance getPlugin() {
         return plugin;
     }
+}
 ```
 
 Passing the plugin to Toast also Registers the managers. So always use `ToastRPG.getManager()` when accessing those. 

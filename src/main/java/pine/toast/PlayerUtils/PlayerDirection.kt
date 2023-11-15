@@ -1,4 +1,4 @@
-package pine.toast
+package pine.toast.PlayerUtils
 
 class PlayerDirection(var yaw: Double, var pitch: Float) {
 

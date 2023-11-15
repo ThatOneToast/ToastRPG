@@ -13,7 +13,11 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataContainer
-import pine.toast.*
+import pine.toast.Extras
+import pine.toast.Keys
+import pine.toast.PlayerUtils.PlayerAttributes
+import pine.toast.PlayerUtils.PlayerDirection
+import pine.toast.ToastRPG
 import toast.pine.Events.*
 import toast.pine.Monsters.Monster
 import toast.pine.Monsters.MonsterType
@@ -45,7 +49,7 @@ class HandleEntities : Listener {
         val monster: Monster = ToastRPG.getMonsterManager()!!.getMonster(entity)
         val monsterType: MonsterType = entity.persistentDataContainer.get(Keys.MONSTER_TYPE, ToastRPG.getAdapterManager()!!.monsterTypeAdapter)!!
 
-        val distance: Double = Extras.calculateDistance(entity, player)
+        val distance: Double = Extras.calculateDistanceFrom(entity, player)
 
         ToastRPG.getPassedPlugin()!!.server.pluginManager.callEvent(MonsterTargetPlayerEvent(monster, monsterType, distance, player ))
 

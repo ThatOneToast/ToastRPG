@@ -2,7 +2,7 @@ package toast.pine.Classes
 
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import pine.toast.PlayerAttributes
+import pine.toast.PlayerUtils.PlayerAttributes
 import pine.toast.ToastRPG
 
 abstract class CharacterClass(

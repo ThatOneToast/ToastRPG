@@ -2,6 +2,7 @@ package pine.toast
 
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitTask
+import pine.toast.PlayerUtils.PlayerAttributes
 
 class ManaRegen {
     private var manaUpdateTask: BukkitTask? = null

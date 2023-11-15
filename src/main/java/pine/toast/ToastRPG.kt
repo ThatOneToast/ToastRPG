@@ -1,9 +1,14 @@
 package pine.toast
 
+import com.google.common.reflect.TypeToken
+import com.google.gson.Gson
 import org.bukkit.entity.Player
 import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
+import pine.toast.EventTimeManagement.EventTimeManager
+import pine.toast.WorldEvents.WorldEvent
+import pine.toast.WorldEvents.WorldEventManager
 import revxrsal.commands.bukkit.BukkitCommandHandler
 import revxrsal.commands.command.CommandActor
 import revxrsal.commands.command.ExecutableCommand
@@ -18,6 +23,7 @@ import toast.pine.commands.AddFriend
 import toast.pine.commands.RemoveFriend
 import toast.pine.socialSystem.PlayerSocial
 import toast.pine.socialSystem.SocialManager
+import java.io.File
 
 object ToastRPG {
     private var passedPlugin: Plugin? = null
@@ -28,6 +34,8 @@ object ToastRPG {
     private var adapterManager: AdapterManager? = null
     private var itemManager: ItemManager? = null
     private var socialManager: SocialManager? = null
+    private var eventTimeManager: EventTimeManager? = null
+    private var worldEventManager: WorldEventManager? = null
 
     /**
      * Passes the plugin to the ToastRPG class
@@ -45,6 +53,8 @@ object ToastRPG {
         adapterManager = AdapterManager()
         itemManager = ItemManager()
         socialManager = SocialManager()
+        eventTimeManager = EventTimeManager()
+        worldEventManager = WorldEventManager()
 
         val commands: BukkitCommandHandler = BukkitCommandHandler.create(passedPlugin!!)
         commands.register(AddFriend())
@@ -64,7 +74,32 @@ object ToastRPG {
         ToastRPG.passedPlugin!!.server.pluginManager.registerEvents(ItemListener(itemManager!!), ToastRPG.passedPlugin!!)
         ToastRPG.passedPlugin!!.server.pluginManager.registerEvents(MonsterListener(entityManager!!), ToastRPG.passedPlugin!!)
         ToastRPG.passedPlugin!!.server.pluginManager.registerEvents(SocialManager(), ToastRPG.passedPlugin!!)
+
+        val gson = Gson()
+        val worldEventsJson = File(passedPlugin.dataFolder, "ToastRPGLibrary/WorldEvents.json").apply { createNewFile() }
+        val jsonContent = worldEventsJson.readText()
+
+        val worldEvents: List<WorldEvent> = gson.fromJson(
+            jsonContent,
+            object : TypeToken<List<WorldEvent>>() {}.type
+        )
+
+        for (worldEvent in worldEvents) {
+            worldEventManager!!.registerWorldEvent(worldEvent)
+        }
+
+
     }
+
+    /**
+     * Run this method in your onDisable()
+     */
+    fun takePluginFromToast() {
+        if (worldEventManager!!.unRegisterAllWorldEvents()) {
+            println("Successfully saved all world events.")
+        }
+    }
+
 
     fun getPassedPlugin(): Plugin? {
         return passedPlugin
@@ -93,5 +128,13 @@ object ToastRPG {
 
     fun getSocialManager(): SocialManager? {
         return socialManager
+    }
+
+    fun getEventTimeManager(): EventTimeManager? {
+        return eventTimeManager
+    }
+
+    fun getWorldEventManager(): WorldEventManager? {
+        return worldEventManager
     }
 }

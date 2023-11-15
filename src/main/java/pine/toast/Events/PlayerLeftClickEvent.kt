@@ -5,7 +5,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
-import pine.toast.PlayerDirection
+import pine.toast.PlayerUtils.PlayerDirection
 
 class PlayerLeftClickEvent(
    player: Player,

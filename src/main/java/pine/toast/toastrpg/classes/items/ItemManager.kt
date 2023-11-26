@@ -73,16 +73,11 @@ class ItemManager : Listener {
 
         val container: PersistentDataContainer = itemMeta.persistentDataContainer
         ToastRPG.getAdapterManager()?.let { container.set(Keys.ITEM, it.itemAdapter, item) }
-        val damageModifier =
-            AttributeModifier("damage", itemMaterial.getDamage(), AttributeModifier.Operation.ADD_NUMBER)
-        val attackSpeedModifier =
-            AttributeModifier("attackSpeed", itemMaterial.getAttackSpeed(), AttributeModifier.Operation.ADD_NUMBER)
-        val armorModifier =
-            AttributeModifier("armor", itemMaterial.getArmor(), AttributeModifier.Operation.ADD_NUMBER)
-        val healthModifier =
-            AttributeModifier("health", itemMaterial.getHealth(), AttributeModifier.Operation.ADD_NUMBER)
-        val movementModifier =
-            AttributeModifier("movement", itemMaterial.getMovementSpeed(), AttributeModifier.Operation.ADD_NUMBER)
+        val damageModifier = AttributeModifier("damage", itemMaterial.getDamage(), AttributeModifier.Operation.ADD_NUMBER)
+        val attackSpeedModifier = AttributeModifier("attackSpeed", itemMaterial.getAttackSpeed(), AttributeModifier.Operation.ADD_NUMBER)
+        val armorModifier = AttributeModifier("armor", itemMaterial.getArmor(), AttributeModifier.Operation.ADD_NUMBER)
+        val healthModifier = AttributeModifier("health", itemMaterial.getHealth(), AttributeModifier.Operation.ADD_NUMBER)
+        val movementModifier = AttributeModifier("movement", itemMaterial.getMovementSpeed(), AttributeModifier.Operation.ADD_NUMBER)
         itemMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, damageModifier)
         itemMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, attackSpeedModifier)
         itemMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, armorModifier)
@@ -95,12 +90,12 @@ class ItemManager : Listener {
         return itemStack
     }
 
-    fun handleRightClick(item: ItemStack, event: PlayerRightCLickEvent) {
+    private fun handleRightClick(item: ItemStack, event: PlayerRightCLickEvent) {
         val handler = activeItems[item]
         handler?.onPlayerRightClick(event)
     }
 
-    fun handleLeftClick(item: ItemStack, event: PlayerLeftClickEvent) {
+    private fun handleLeftClick(item: ItemStack, event: PlayerLeftClickEvent) {
         val handler = activeItems[item]
         handler?.onPlayerLeftClick(event)
     }
@@ -109,5 +104,30 @@ class ItemManager : Listener {
     private fun onItemBreak(event: PlayerItemBreakEvent) {
         val item: ItemStack = event.brokenItem
         if (isItemRegistered(item)) unregisterHandledItem(item)
+    }
+
+    @EventHandler
+    private fun onRightClick(event: PlayerRightCLickEvent) {
+        val item: ItemStack = event.getMainHand()
+        val itemContainer: PersistentDataContainer = item.itemMeta.persistentDataContainer
+
+        if (itemContainer.has(Keys.ITEM)) {
+            val itemObject: Item? = ToastRPG.getAdapterManager()?.let { itemContainer.get(Keys.ITEM, it.itemAdapter) }
+            if (itemObject != null) {
+                this.handleRightClick(item, event)
+            }
+        }
+    }
+
+    @EventHandler
+    private fun onLeftClick(event: PlayerLeftClickEvent) {
+        val item: ItemStack = event.getMainHand()
+        val container: PersistentDataContainer = item.itemMeta.persistentDataContainer
+        if (container.has(Keys.ITEM)) {
+            val itemObject: Item? = ToastRPG.getAdapterManager()?.let { container.get(Keys.ITEM, it.itemAdapter) }
+            if (itemObject != null) {
+                this.handleLeftClick(item, event)
+            }
+        }
     }
 }

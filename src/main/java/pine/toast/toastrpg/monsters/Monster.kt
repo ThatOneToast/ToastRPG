@@ -36,7 +36,8 @@ abstract class Monster (
         val speed = monsterType.getSpeed()
         livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue = health.toDouble()
         livingEntity.health = health.toDouble()
-        livingEntity.setCustomName(monsterName)
+
+        livingEntity.customName = monsterName
         livingEntity.isCustomNameVisible = true
         livingEntity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)?.baseValue = damage
         livingEntity.getAttribute(Attribute.GENERIC_ARMOR)?.baseValue = defense

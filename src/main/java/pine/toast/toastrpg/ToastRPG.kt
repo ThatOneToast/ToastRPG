@@ -1,16 +1,13 @@
 package pine.toast.toastrpg
 
 import org.bukkit.plugin.Plugin
-import org.bukkit.plugin.java.JavaPlugin
 import pine.toast.toastrpg.adapters.AdapterManager
-import pine.toast.toastrpg.classes.items.ItemListener
 import pine.toast.toastrpg.classes.items.ItemManager
 import pine.toast.toastrpg.classes.skills.SkillListener
 import pine.toast.toastrpg.entities.EntityManager
 import pine.toast.toastrpg.entities.HandleEntities
 import pine.toast.toastrpg.level.LevelManager
 import pine.toast.toastrpg.monsters.MonsterFactory
-import pine.toast.toastrpg.monsters.MonsterListener
 import pine.toast.toastrpg.playerutils.PlayerJoin
 import pine.toast.toastrpg.socialsystem.SocialManager
 import pine.toast.toastrpg.worldevents.WorldEventManager
@@ -18,7 +15,7 @@ import pine.toast.toastrpg.worldevents.WorldEventManager
 object ToastRPG {
     private var passedPlugin: Plugin? = null
     private var entityManager: EntityManager? = null
-    private var monsterManager: MonsterFactory? = null
+    private var monsterFactory: MonsterFactory? = null
     private var manaRegen: ManaRegen? = null
     private var levelManager: LevelManager? = null
     private var adapterManager: AdapterManager? = null
@@ -33,10 +30,10 @@ object ToastRPG {
      * the mana regen task.
      * Adds the following commands: addFriend, removeFriend
      */
-    fun passPluginToToast(plugin: JavaPlugin?) {
+    fun passPluginToToast(plugin: Plugin) {
         passedPlugin = plugin
         entityManager = EntityManager()
-        monsterManager = MonsterFactory()
+        monsterFactory = MonsterFactory()
         manaRegen = ManaRegen()
         levelManager = LevelManager()
         adapterManager = AdapterManager()
@@ -44,29 +41,21 @@ object ToastRPG {
         socialManager = SocialManager()
         worldEventManager = WorldEventManager()
 
-
-        passedPlugin!!.server.pluginManager.registerEvents(ItemListener(itemManager!!), passedPlugin!!)
-        passedPlugin!!.server.pluginManager.registerEvents(ItemManager(), passedPlugin!!)
-        passedPlugin!!.server.pluginManager.registerEvents(MonsterListener(entityManager!!), passedPlugin!!)
-        passedPlugin!!.server.pluginManager.registerEvents(SocialManager(), passedPlugin!!)
-        passedPlugin!!.server.pluginManager.registerEvents(PlayerJoin(), passedPlugin!!)
-        passedPlugin!!.server.pluginManager.registerEvents(HandleEntities(), passedPlugin!!)
-        passedPlugin!!.server.pluginManager.registerEvents(SkillListener(), passedPlugin!!)
-
+        passedPlugin!!.server.pluginManager.registerEvents(itemManager!!, this.passedPlugin!!)
+        passedPlugin!!.server.pluginManager.registerEvents(monsterFactory!!, this.passedPlugin!!)
+        passedPlugin!!.server.pluginManager.registerEvents(socialManager!!, this.passedPlugin!!)
+        passedPlugin!!.server.pluginManager.registerEvents(PlayerJoin(), this.passedPlugin!!)
+        passedPlugin!!.server.pluginManager.registerEvents(HandleEntities(), this.passedPlugin!!)
+        passedPlugin!!.server.pluginManager.registerEvents(SkillListener(), this.passedPlugin!!)
     }
 
     /**
      * Run this method in your onDisable()
      */
     fun takePluginFromToast() {
-        if (worldEventManager!!.unRegisterAllWorldEvents()) {
+        if (!worldEventManager!!.unRegisterAllWorldEvents()) {
             println("Successfully saved all world events.")
         }
-    }
-
-
-    fun getPassedPlugin(): Plugin? {
-        return passedPlugin
     }
 
     fun getEntityManager(): EntityManager? {
@@ -74,7 +63,11 @@ object ToastRPG {
     }
 
     fun getMonsterFactory(): MonsterFactory? {
-        return monsterManager
+        return monsterFactory
+    }
+
+    fun getManaRegen(): ManaRegen? {
+        return manaRegen
     }
 
     fun getLevelManager(): LevelManager? {
@@ -97,7 +90,9 @@ object ToastRPG {
         return worldEventManager
     }
 
-
+    fun getPassedPlugin(): Plugin? {
+        return passedPlugin
+    }
 
 
 }

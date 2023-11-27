@@ -53,6 +53,7 @@ object ToastRPG {
      * Run this method in your onDisable()
      */
     fun takePluginFromToast() {
+        if (!worldEventManager!!.getWorldEventsFile().exists()) return
         if (!worldEventManager!!.unRegisterAllWorldEvents()) {
             println("Successfully saved all world events.")
         }

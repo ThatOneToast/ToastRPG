@@ -14,9 +14,25 @@ class WorldEventManager {
 
 
    init {
-      val dataFolder = ToastRPG.getPassedPlugin()!!.dataFolder
-      val libraryFolder = File(dataFolder, "ToastRPGLibrary").apply { mkdir() }
-      val worldEventsJson = File(libraryFolder, "WorldEvents.json").apply { createNewFile() }
+//      val dataFolder = ToastRPG.getPassedPlugin()!!.dataFolder
+//      val libraryFolder = File(dataFolder, "ToastRPGLibrary").apply { mkdir() }
+//      val worldEventsJson = File(libraryFolder, "WorldEvents.json").apply { createNewFile() }
+      val dataFolder = ToastRPG.getPassedPlugin()?.dataFolder
+      val libraryFolder = File(dataFolder, "ToastRPGLibrary")
+
+      // Ensure that the ToastRPGLibrary directory exists or create it
+      if (!libraryFolder.exists() && !libraryFolder.mkdirs()) {
+         // Handle the case where directory creation fails
+         throw RuntimeException("Failed to create ToastRPGLibrary directory")
+      }
+
+      val worldEventsJson = File(libraryFolder, "WorldEvents.json")
+
+      // Ensure that the WorldEvents.json file exists or create it
+      if (!worldEventsJson.exists() && !worldEventsJson.createNewFile()) {
+         // Handle the case where file creation fails
+         throw RuntimeException("Failed to create WorldEvents.json file")
+      }
       worldEventsFile = worldEventsJson
 
       val gson = Gson()
@@ -121,6 +137,10 @@ class WorldEventManager {
 
    fun getScheduledWorldEvents(): HashMap<WorldEvent, WorldEventTime> {
       return scheduledWorldEvents
+   }
+
+   fun getWorldEventsFile(): File {
+      return worldEventsFile
    }
 
    /**

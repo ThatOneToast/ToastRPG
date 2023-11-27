@@ -6,35 +6,49 @@ import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import pine.toast.toastrpg.worldevents.WorldEvent
+import pine.toast.toastrpg.worldevents.WorldEventTime
 
-class WorldEventTypeAdapter : TypeAdapter<WorldEvent>() {
 
-    override fun read(`in`: JsonReader): WorldEvent {
+class WorldEventTypeAdapter : TypeAdapter<Any?>() {
+
+
+    override fun read(`in`: JsonReader): Any? {
+
         val jsonObject = readJsonObject(`in`)
-        // Add logic to create the appropriate subclass based on eventType
-        when (val eventType = jsonObject.getAsJsonPrimitive("eventType").asString) {
-            "WorldEvent" -> return Gson().fromJson(jsonObject, WorldEvent::class.java)
-            // Add more cases for other concrete event types
+        return when (val eventType = jsonObject.getAsJsonPrimitive("eventType").asString) {
+            "WorldEvent" -> Gson().fromJson(jsonObject, WorldEvent::class.java)
+            "WorldEventTime" -> Gson().fromJson(jsonObject, WorldEventTime::class.java)
             else -> throw IllegalArgumentException("Unknown eventType: $eventType")
         }
     }
-    override fun write(out: JsonWriter, value: WorldEvent?) {
+    override fun write(out: JsonWriter, value: Any?) {
         if (value == null) {
             out.nullValue()
             return
         }
 
+
         out.beginObject()
-        out.name("eventName").value(value.getName())
-        out.name("eventType").value(value.getType().toString())
-        out.name("eventTime").value(value.getSpawnTime().toString())
-        out.endObject()
+
+        when (value) {
+            is WorldEvent -> {
+                out.name("eventName").value(value.getName())
+                out.name("eventType").value("WorldEvent")
+                out.name("eventTime").value(value.getSpawnTime().toString())
+            }
+
+            is WorldEventTime -> {
+                out.name("eventTime").value(value.toString())
+            }
+
+            else -> {
+                throw IllegalArgumentException("Unknown type: ${value?.javaClass?.simpleName}")
+            }
+        }
+
     }
 
     private fun readJsonObject(`in`: JsonReader): JsonObject {
-        // Implement reading a JsonObject from the JsonReader
-        // This can vary depending on the structure of your JSON
-        // For simplicity, you can use Gson to parse the JsonObject
         return Gson().fromJson(`in`, JsonObject::class.java)
     }
 }

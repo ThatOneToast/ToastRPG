@@ -38,22 +38,23 @@ class WorldEventManager {
       worldEventsFile = worldEventsJson
 
       val gson = GsonBuilder()
-         .registerTypeAdapter(WorldEvent::class.java, WorldEventTypeAdapter())
-         .create()
-      val events: List<WorldEvent>? = gson.fromJson(worldEventsJson.reader(), object : TypeToken<List<WorldEvent>>() {}.type)
+            .registerTypeAdapter(WorldEvent::class.java, WorldEventTypeAdapter())
+            .create()
+        val events: List<WorldEvent>? = gson.fromJson(worldEventsJson.reader(), object : TypeToken<List<WorldEvent>>() {}.type)
 
-      if (events != null) {
-         for (worldEvent in events) {
-            val worldEventTime: WorldEventTime = worldEvent.getSpawnTime()
-            scheduledWorldEvents[worldEvent] = worldEventTime
-         }
-         ToastRPG.getPassedPlugin()!!.logger.info("Loaded ${scheduledWorldEvents.size} world events.")
-      } else {
-         // Handle the case where deserialization failed or the file is empty.
-         ToastRPG.getPassedPlugin()!!.logger.warning("Failed to load world events. The JSON file may be empty or invalid.")
-      }
+        if (events != null) {
+            for (worldEvent in events) {
+                val worldEventTime: WorldEventTime = worldEvent.getSpawnTime()
+                scheduledWorldEvents[worldEvent] = worldEventTime
+            }
+            ToastRPG.getPassedPlugin()?.logger?.info("Loaded ${scheduledWorldEvents.size} world events.")
+        } else {
+            // Handle the case where deserialization failed or the file is empty.
+            ToastRPG.getPassedPlugin()?.logger?.warning("Failed to load world events. The JSON file may be empty or invalid.")
+        }
 
-      ToastRPG.getPassedPlugin()!!.logger.info(" - WorldEventManager ~ Passed")
+      ToastRPG.getPassedPlugin()?.logger?.info(" - WorldEventManager ~ Passed")
+      
 
 
    }

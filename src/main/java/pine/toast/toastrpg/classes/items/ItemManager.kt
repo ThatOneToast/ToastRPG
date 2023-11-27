@@ -76,7 +76,7 @@ class ItemManager : Listener {
         lore.add(item.getItemStats().toString())
 
         val container: PersistentDataContainer = itemMeta.persistentDataContainer
-        ToastRPG.getAdapterManager()?.let { container.set(Keys.ITEM, it.itemAdapter, item) }
+        container.set(Keys.ITEM, ToastRPG.getAdapterManager()!!.itemAdapter, item)
         val damageModifier = AttributeModifier("damage", itemMaterial.getDamage(), AttributeModifier.Operation.ADD_NUMBER)
         val attackSpeedModifier = AttributeModifier("attackSpeed", itemMaterial.getAttackSpeed(), AttributeModifier.Operation.ADD_NUMBER)
         val armorModifier = AttributeModifier("armor", itemMaterial.getArmor(), AttributeModifier.Operation.ADD_NUMBER)

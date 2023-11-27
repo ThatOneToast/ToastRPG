@@ -47,7 +47,7 @@ class WorldEventManager {
                     stopWorldEvent(worldEvent)
                 }
             },
-            delayMillis / tickPerSc // Assuming your server runs at 20 ticks per second, adjust this value if needed
+            delayMillis / tickPerSc 
         )
     }
 

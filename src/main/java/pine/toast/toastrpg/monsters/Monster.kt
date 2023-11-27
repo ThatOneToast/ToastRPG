@@ -7,12 +7,11 @@ import pine.toast.toastrpg.ToastRPG
 import pine.toast.toastrpg.entities.EntityHandler
 
 abstract class Monster (
-    private var type: MonsterType,
-    private var monsterName: String,
     livingEntityClass: Class<out LivingEntity>,
-    monsterHandlerClass: Class<out EntityHandler>
+    private var type: MonsterType,
+    private var monsterName: String
 
-) : MonsterType(type.getName(), type.getHealth(), type.getDamage(), type.getDefense(), type.getSpeed()) {
+) : MonsterType(type.getName(), type.getHealth(), type.getDamage(), type.getDefense(), type.getSpeed(), type.getMonsterHandlerClass()) {
 
     private lateinit var livingEntity: LivingEntity
     private lateinit var monsterHandler: EntityHandler
@@ -20,7 +19,7 @@ abstract class Monster (
     init {
         try {
             livingEntity = livingEntityClass.getDeclaredConstructor().newInstance()
-            monsterHandler = monsterHandlerClass.getDeclaredConstructor().newInstance()
+            monsterHandler = getMonsterHandlerClass().getDeclaredConstructor().newInstance()
             ToastRPG.getPassedPlugin()!!.logger.info("Pass -> $monsterName")
         } catch (e: Exception) {
             ToastRPG.getPassedPlugin()!!.logger.warning("Fail -> $monsterName")

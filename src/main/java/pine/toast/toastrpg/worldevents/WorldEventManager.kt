@@ -2,6 +2,7 @@ package pine.toast.toastrpg.worldevents
 
 import pine.toast.toastrpg.ToastRPG
 import pine.toast.toastrpg.events.WorldEventAlertNowEvent
+import java.util.*
 
 class WorldEventManager {
 
@@ -25,8 +26,8 @@ class WorldEventManager {
         val eventStartTime: Long = worldEvent.getSpawnTime().getStartDate()
         val currentTime: Long = System.currentTimeMillis()
 
-        if (eventStartTime <= currentTime) {
-            ToastRPG.getPassedPlugin()!!.logger.warning("World event ${worldEvent.getName()} start time has already passed.")
+        if(Date.from(worldEvent.getInstant()).before(Date.from(Date().toInstant()))){
+            ToastRPG.getPassedPlugin()!!.logger.info("World event ${worldEvent.getName()} has expired before scheduling.")
             return
         }
 

@@ -2,6 +2,7 @@ package pine.toast.toastrpg.monsters
 
 import com.google.gson.JsonObject
 import pine.toast.toastrpg.ToastRPG
+import pine.toast.toastrpg.entities.EntityHandler
 
 
 abstract class MonsterType(
@@ -9,7 +10,8 @@ abstract class MonsterType(
     private var health: Int,
     private var damage: Double,
     private var defense: Double,
-    private var speed: Float
+    private var speed: Float,
+    private var monsterHandlerClass: Class<out EntityHandler>
 ) {
 
     init {
@@ -36,6 +38,10 @@ abstract class MonsterType(
         return speed
     }
 
+    fun getMonsterHandlerClass(): Class<out EntityHandler> {
+        return monsterHandlerClass
+    }
+
     fun toJson(): JsonObject {
         val json = JsonObject()
         json.addProperty("name", typeName)
@@ -45,6 +51,7 @@ abstract class MonsterType(
         json.addProperty("speed", speed)
         return json
     }
+
 
 
 

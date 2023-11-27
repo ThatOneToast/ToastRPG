@@ -2,6 +2,7 @@ package pine.toast.toastrpg.worldevents
 
 import org.bukkit.NamespacedKey
 import pine.toast.toastrpg.ToastRPG
+import java.time.Instant
 
 abstract class WorldEvent(
      private var eventName: String,
@@ -25,6 +26,10 @@ abstract class WorldEvent(
    fun getSpawnTime(): WorldEventTime {
       return worldEventTime
    }
+
+    fun getInstant(): Instant {
+        return Instant.ofEpochMilli(worldEventTime.getStartDate())
+    }
 
 
 

@@ -1,7 +1,6 @@
 package pine.toast.toastrpg.worldevents
 
 import pine.toast.toastrpg.ToastRPG
-import pine.toast.toastrpg.events.WorldEventAlertEvent
 import pine.toast.toastrpg.events.WorldEventAlertNowEvent
 
 class WorldEventManager {
@@ -22,31 +21,33 @@ class WorldEventManager {
      * @param worldEvent the world event to schedule.
      *
      */
-    fun startWorldEvent(worldEvent: WorldEvent) {
+    fun startWorldEvent(worldEvent: WorldEvent, tickPerSc: Int = 50) {
         val eventStartTime: Long = worldEvent.getSpawnTime().getStartDate()
         val currentTime: Long = System.currentTimeMillis()
+
+        if (eventStartTime <= currentTime) {
+            ToastRPG.getPassedPlugin()!!.logger.warning("World event ${worldEvent.getName()} start time has already passed.")
+            return
+        }
+
         registerWorldEvent(worldEvent)
         ToastRPG.getPassedPlugin()!!.logger.info("Started scheduling world event ${worldEvent.getName()}.")
 
         val delayMillis = eventStartTime - currentTime
 
-        if (delayMillis > 0) {
-            ToastRPG.getPassedPlugin()!!.server.scheduler.scheduleSyncDelayedTask(
-                ToastRPG.getPassedPlugin()!!,
-                {
-                    if (!worldEvent.getSpawnTime().isExpired()) {
-                        ToastRPG.getPassedPlugin()!!.logger.info("World event ${worldEvent.getName()} is starting now!")
-                        ToastRPG.getPassedPlugin()!!.server.pluginManager.callEvent(WorldEventAlertNowEvent(worldEvent))
-                    } else {
-                        ToastRPG.getPassedPlugin()!!.logger.info("World event ${worldEvent.getName()} has expired during the delay.")
-                        unRegisterWorldEvent(worldEvent)
-                    }
-                },
-                delayMillis / 50
-            )
-        } else {
-            ToastRPG.getPassedPlugin()!!.logger.warning("World event ${worldEvent.getName()} start time has already passed.")
-        }
+        ToastRPG.getPassedPlugin()!!.server.scheduler.scheduleSyncDelayedTask(
+            ToastRPG.getPassedPlugin()!!,
+            {
+                if (!worldEvent.getSpawnTime().isExpired()) {
+                    ToastRPG.getPassedPlugin()!!.logger.info("World event ${worldEvent.getName()} is starting now!")
+                    ToastRPG.getPassedPlugin()!!.server.pluginManager.callEvent(WorldEventAlertNowEvent(worldEvent))
+                } else {
+                    ToastRPG.getPassedPlugin()!!.logger.info("World event ${worldEvent.getName()} has expired during the delay.")
+                    stopWorldEvent(worldEvent)
+                }
+            },
+            delayMillis / tickPerSc // Assuming your server runs at 20 ticks per second, adjust this value if needed
+        )
     }
 
 
@@ -54,8 +55,10 @@ class WorldEventManager {
      * Stops scheduling the world event.
      * @param worldEvent the world event to stop scheduling.
      */
-    fun stopWorldEvent(worldEvent: WorldEvent) {
+    private fun stopWorldEvent(worldEvent: WorldEvent) {
         worldEvent.getSpawnTime().setExpired()
+        unRegisterWorldEvent(worldEvent)
+
     }
 
 

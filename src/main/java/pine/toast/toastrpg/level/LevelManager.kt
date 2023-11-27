@@ -11,6 +11,10 @@ class LevelManager {
 
     private var experienceUntilLevelUp = 105
 
+    init {
+        print(" - LevelManager ~ Loaded")
+    }
+
     /**
      * Adds experience to the player
      * @param player The player to add experience to

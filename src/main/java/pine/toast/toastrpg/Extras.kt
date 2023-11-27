@@ -81,7 +81,7 @@ object Extras {
      * @param chunks - The chunks to get the player last death locations of
      */
     fun getAllPlayerLastDeathLocations(world: World, chunks: Set<Chunk>): Set<Location> {
-        val playerLastDeathLocations = mutableSetOf<Location>()
+        val playerLastDeathLocations: MutableSet<Location> = mutableSetOf()
 
         for (chunk in chunks) {
             for (player in world.players) {
@@ -230,8 +230,6 @@ object Extras {
     private fun isExposedToMoon(world: World, block: Block): Boolean {
         return block.lightLevel <= 8 && world.getHighestBlockYAt(block.x, block.z) == block.y
     }
-
-
 
 
 

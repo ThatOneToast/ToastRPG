@@ -20,10 +20,15 @@ class ManaRegen {
         }
     }
 
+    init {
+        print(" - ManaRegen ~ Started")
+        startManaUpdateTask()
+    }
+
     /**
      * Call this method to start Mana Regeneration
      */
-    fun startManaUpdateTask() {
+    private fun startManaUpdateTask() {
         if (taskID == -1) {
             manaUpdateTask = Bukkit.getScheduler().runTaskTimer(
                 ToastRPG.getPassedPlugin()!!,

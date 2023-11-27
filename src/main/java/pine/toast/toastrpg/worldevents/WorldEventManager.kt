@@ -49,6 +49,9 @@ class WorldEventManager {
          ToastRPG.getPassedPlugin()!!.logger.warning("Failed to load world events. The JSON file may be empty or invalid.")
       }
 
+      print(" - WorldEventManager ~ Passed")
+
+
    }
 
    private fun registerWorldEvent(worldEvent: WorldEvent) {

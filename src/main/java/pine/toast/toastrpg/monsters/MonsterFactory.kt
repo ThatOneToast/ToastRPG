@@ -12,6 +12,9 @@ import pine.toast.toastrpg.events.MonsterTargetPlayerEvent
 class MonsterFactory : Listener {
     private val monsters: MutableMap<Monster, EntityHandler> = HashMap()
 
+    init {
+        print(" - MonsterFactory ~ Started")
+    }
 
     /**
      * Marks a monster as a monster.

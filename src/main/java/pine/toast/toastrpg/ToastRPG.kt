@@ -13,6 +13,9 @@ import pine.toast.toastrpg.socialsystem.SocialManager
 import pine.toast.toastrpg.worldevents.WorldEventManager
 
 object ToastRPG {
+
+    private const val VERSION = "v1.0.5-ALPHA-rev9"
+
     private var passedPlugin: Plugin? = null
     private var entityManager: EntityManager? = null
     private var monsterFactory: MonsterFactory? = null
@@ -28,9 +31,14 @@ object ToastRPG {
      * @param plugin The plugin that is passed to the ToastRPG class
      * Note: This will also create the following managers: EntityManager, MonsterManager, LevelManager, AdapterManager also starts
      * the mana regen task.
-     * Adds the following commands: addFriend, removeFriend
+     * PlayerData is populated with dummy data. For the keys used in the player data:
+     * @see Keys
+     *
      */
     fun passPluginToToast(plugin: Plugin) {
+        print("~~~~ ToastRPG: $VERSION ~~~~")
+        print(" - Loading... ")
+
         passedPlugin = plugin
         entityManager = EntityManager()
         monsterFactory = MonsterFactory()
@@ -40,6 +48,8 @@ object ToastRPG {
         itemManager = ItemManager()
         socialManager = SocialManager()
         worldEventManager = WorldEventManager()
+
+        print("~~~ ToastRPG: Validated! ~~~")
 
         passedPlugin!!.server.pluginManager.registerEvents(itemManager!!, this.passedPlugin!!)
         passedPlugin!!.server.pluginManager.registerEvents(monsterFactory!!, this.passedPlugin!!)
@@ -57,6 +67,8 @@ object ToastRPG {
         if (!worldEventManager!!.unRegisterAllWorldEvents()) {
             println("Successfully saved all world events.")
         }
+
+        manaRegen!!.stopManaUpdateTask()
     }
 
     fun getEntityManager(): EntityManager? {

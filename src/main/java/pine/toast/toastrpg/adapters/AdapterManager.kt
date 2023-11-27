@@ -7,4 +7,8 @@ class AdapterManager {
     val itemMaterialAdapter = ItemMaterialAdapter()
     val socialProfileAdapter = SocialProfileAdapter()
     val skillAdapter = SkillAdapter()
+
+    init {
+        print(" - AdapterManager ~ Loaded")
+    }
 }

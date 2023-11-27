@@ -19,6 +19,10 @@ import pine.toast.toastrpg.events.PlayerRightClickEvent
 class ItemManager : Listener {
     private val activeItems: HashMap<ItemStack, ItemHandler?> = HashMap()
 
+    init {
+        print(" - ItemManager ~ Started")
+    }
+
     /**
      * This function will register an item with the item manager.
      * @param itemStack The item to register.

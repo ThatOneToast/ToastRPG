@@ -4,6 +4,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.persistence.PersistentDataContainer
+import org.bukkit.persistence.PersistentDataType
 import pine.toast.toastrpg.Keys
 import pine.toast.toastrpg.ToastRPG
 import pine.toast.toastrpg.socialsystem.PlayerSocial
@@ -21,6 +22,12 @@ class PlayerJoin : Listener {
                     PlayerSocial(null, event.player, null, null)
                 )
             }
+
+            playerData.set(Keys.EXP, PersistentDataType.INTEGER, 0)
+            playerData.set(Keys.LEVEL, PersistentDataType.INTEGER, 1)
+            playerData.set(Keys.MAX_LEVEL, PersistentDataType.INTEGER, 100)
+            playerData.set(Keys.MAX_MANA, PersistentDataType.INTEGER, 100)
+            playerData.set(Keys.MANA_PER, PersistentDataType.INTEGER, 1)
         }
     }
 }

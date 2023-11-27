@@ -2,9 +2,9 @@ package pine.toast.toastrpg.socialsystem
 
 import org.bukkit.entity.Player
 import pine.toast.toastrpg.ToastRPG
+import pine.toast.toastrpg.colorapi.Colors
 import pine.toast.toastrpg.events.PlayerRespondFriendInvite
 import pine.toast.toastrpg.events.PlayerSendFriendInviteEvent
-import pine.toast.toastrpg.colorapi.Colors
 import java.util.*
 import java.util.function.Consumer
 
@@ -58,7 +58,7 @@ class Friends(actionUser: PlayerSocial) {
      * Note: PlayerSendFriendInvite, and PlayerRespondFriendInvite events will be called due to this.
      * Manage them how you wish.
      */
-    fun sendInvite(receiverSocial: PlayerSocial) {
+    fun sendFriendRequest(receiverSocial: PlayerSocial) {
         if (!receiverSocial.friendInvites.contains(player)) {
             val receiver: Player = receiverSocial.getPlayer()
             val senderName = player.getPlayer().name

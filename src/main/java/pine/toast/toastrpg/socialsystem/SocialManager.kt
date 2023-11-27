@@ -11,6 +11,10 @@ class SocialManager : Listener {
     private val groups: MutableSet<Group> = HashSet()
     private val nextMessageCallbacks: MutableMap<UUID, Consumer<String>?> = HashMap()
 
+    init {
+        print(" - SocialManager ~ Loaded")
+    }
+
     fun getNextMessageCallbacks(): Map<UUID, Consumer<String>?> = nextMessageCallbacks.toMap()
 
     fun addNextMessageCallback(playerId: UUID, callback: Consumer<String>?) {

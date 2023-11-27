@@ -12,7 +12,6 @@ class WorldEventAlertEvent(worldEvent: WorldEvent, worldEventStage: WorldEventSt
     private val event: WorldEvent = worldEvent
     private val stage: WorldEventStage = worldEventStage
 
-
     fun getWorldEvent(): WorldEvent {
         return event
     }
@@ -25,4 +24,12 @@ class WorldEventAlertEvent(worldEvent: WorldEvent, worldEventStage: WorldEventSt
         return handlers
     }
 
+    companion object {
+        private val handlerList = HandlerList()
+
+        @JvmStatic
+        fun getHandlerList(): HandlerList {
+            return handlerList
+        }
+    }
 }

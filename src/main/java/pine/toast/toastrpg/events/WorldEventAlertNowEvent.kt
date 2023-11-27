@@ -6,13 +6,22 @@ import pine.toast.toastrpg.worldevents.WorldEvent
 
 class WorldEventAlertNowEvent(worldEvent: WorldEvent) : Event() {
 
-   private val handlers = HandlerList()
-   private val event: WorldEvent = worldEvent
+    private val event: WorldEvent = worldEvent
 
-   fun getWorldEvent(): WorldEvent {
-      return event
-   }
-   override fun getHandlers(): HandlerList {
-      return handlers
-   }
+    fun getWorldEvent(): WorldEvent {
+        return event
+    }
+
+    override fun getHandlers(): HandlerList {
+        return handlerList
+    }
+
+    companion object {
+       private val handlerList = HandlerList()
+
+       @JvmStatic
+        fun getHandlerList(): HandlerList {
+           return handlerList
+        }
+    }
 }

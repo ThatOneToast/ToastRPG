@@ -5,19 +5,13 @@ import org.bukkit.event.HandlerList
 import pine.toast.toastrpg.socialsystem.Group
 import pine.toast.toastrpg.socialsystem.PlayerSocial
 
-class PlayerRespondGroupInvite(sender: PlayerSocial, receiver: PlayerSocial, group: Group?, response: Boolean) :
-    Event() {
-    private val sender: PlayerSocial
-    private val receiver: PlayerSocial
-    private val group: Group?
+class PlayerRespondGroupInvite(
+    private val sender: PlayerSocial,
+    private val receiver: PlayerSocial, private val group: Group?,
     private val response: Boolean
-
-    init {
-        this.sender = sender
-        this.receiver = receiver
-        this.group = group
-        this.response = response
-    }
+) :
+    Event() {
+    private val handlers = HandlerList()
 
     fun getSender(): PlayerSocial {
         return sender
@@ -32,10 +26,7 @@ class PlayerRespondGroupInvite(sender: PlayerSocial, receiver: PlayerSocial, gro
     }
 
     override fun getHandlers(): HandlerList {
-        return HANDLERS
+        return handlers
     }
 
-    companion object {
-        private val HANDLERS: HandlerList = HandlerList()
-    }
 }

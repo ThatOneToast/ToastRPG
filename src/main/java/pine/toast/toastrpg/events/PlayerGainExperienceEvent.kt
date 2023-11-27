@@ -6,38 +6,27 @@ import org.bukkit.event.HandlerList
 
 
 class PlayerGainExperienceEvent(
-   player: Player,
-   amount: Int,
-   level: Int
+    private val player: Player,
+    private val amount: Int,
+    private val level: Int
 ) : Event() {
 
-   private val player: Player
-   private val amount: Int
-   private val level: Int
+    private val handlers = HandlerList()
 
-   init {
-      this.player = player
-      this.amount = amount
-      this.level = level
-   }
+    fun getPlayer(): Player {
+        return player
+    }
 
-   fun getPlayer(): Player {
-      return player
-   }
+    fun getAmount(): Int {
+        return amount
+    }
 
-   fun getAmount(): Int {
-      return amount
-   }
+    fun getLevel(): Int {
+        return level
+    }
 
-   fun getLevel(): Int {
-      return level
-   }
+    override fun getHandlers(): HandlerList {
+        return handlers
+    }
 
-   override fun getHandlers(): HandlerList {
-      return HANDLERS
-   }
-
-   companion object {
-      private val HANDLERS: HandlerList = HandlerList()
-   }
 }

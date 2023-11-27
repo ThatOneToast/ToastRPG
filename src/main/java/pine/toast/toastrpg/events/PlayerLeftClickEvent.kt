@@ -7,31 +7,19 @@ import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
 import pine.toast.toastrpg.playerutils.PlayerDirection
 
-class PlayerLeftClickEvent(
-    player: Player,
-    mainHand: ItemStack,
-    offHand: ItemStack,
-    block: Block,
-    direction: PlayerDirection,
-    isSneaking: Boolean
+class PlayerLeftClickEvent(private val player: Player,
+                           private val mainHand: ItemStack,
+                           private val offHand: ItemStack,
+                           private val block: Block,
+                           private val direction: PlayerDirection,
+                           isSneaking: Boolean
 ) : Event() {
-    private val player: Player
-    private val mainHand: ItemStack
-    private val offHand: ItemStack
-    private val block: Block
-    private val direction: PlayerDirection
-    private val sneaking: Boolean
 
-    init {
-        this.player = player
-        this.mainHand = mainHand
-        this.offHand = offHand
-        this.block = block
-        this.direction = direction
-        sneaking = isSneaking
-    }
+    private val handlers = HandlerList()
 
-    fun getPlayer(): Player {
+  private val sneaking: Boolean = isSneaking
+
+  fun getPlayer(): Player {
         return player
     }
 
@@ -48,10 +36,7 @@ class PlayerLeftClickEvent(
     }
 
     override fun getHandlers(): HandlerList {
-        return HANDLERS
+        return handlers
     }
 
-    companion object {
-        private val HANDLERS: HandlerList = HandlerList()
-    }
 }

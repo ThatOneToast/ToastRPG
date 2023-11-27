@@ -14,6 +14,7 @@ class MonsterTargetPlayerEvent(monster: Monster, monsterType: MonsterType, dista
     private var monsterType: MonsterType
     private var distance: Double
     private var target: Player
+    private val handlers = HandlerList()
 
     init {
         this.monster = monster
@@ -52,10 +53,8 @@ class MonsterTargetPlayerEvent(monster: Monster, monsterType: MonsterType, dista
     }
 
     override fun getHandlers(): HandlerList {
-        return HANDLERS
+        return handlers
     }
 
-    companion object {
-        private val HANDLERS: HandlerList = HandlerList()
-    }
+
 }

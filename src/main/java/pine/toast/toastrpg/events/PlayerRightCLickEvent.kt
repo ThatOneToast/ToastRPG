@@ -8,28 +8,14 @@ import org.bukkit.inventory.ItemStack
 import pine.toast.toastrpg.playerutils.PlayerDirection
 
 class PlayerRightCLickEvent(
-    player: Player,
-    mainHand: ItemStack,
-    offHand: ItemStack,
-    block: Block,
-    direction: PlayerDirection,
-    isSneaking: Boolean
-) : Event() {
-    private val player: Player
-    private val mainHand: ItemStack
-    private val offHand: ItemStack
-    private val block: Block
-    private val direction: PlayerDirection
+    private val player: Player,
+    private val mainHand: ItemStack,
+    private val offHand: ItemStack,
+    private val block: Block,
+    private val direction: PlayerDirection,
     private val isSneaking: Boolean
-
-    init {
-        this.player = player
-        this.mainHand = mainHand
-        this.offHand = offHand
-        this.block = block
-        this.direction = direction
-        this.isSneaking = isSneaking
-    }
+) : Event() {
+    private val handlers = HandlerList()
 
     fun getPlayer(): Player {
         return player
@@ -48,10 +34,8 @@ class PlayerRightCLickEvent(
     }
 
     override fun getHandlers(): HandlerList {
-        return HANDLERS
+        return handlers
     }
 
-    companion object {
-        private val HANDLERS: HandlerList = HandlerList()
-    }
+
 }

@@ -4,15 +4,9 @@ import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 import pine.toast.toastrpg.socialsystem.PlayerSocial
 
-class PlayerSendFriendInviteEvent(sender: PlayerSocial, receiver: PlayerSocial) : Event() {
-    private val sender: PlayerSocial
-    private val receiver: PlayerSocial
+class PlayerSendFriendInviteEvent(private val sender: PlayerSocial, private val receiver: PlayerSocial) : Event() {
 
-    init {
-        this.sender = sender
-        this.receiver = receiver
-    }
-
+    private val handlers = HandlerList()
     fun getSender(): PlayerSocial {
         return sender
     }
@@ -22,10 +16,8 @@ class PlayerSendFriendInviteEvent(sender: PlayerSocial, receiver: PlayerSocial) 
     }
 
     override fun getHandlers(): HandlerList {
-        return HANDLERS
+        return handlers
     }
 
-    companion object {
-        private val HANDLERS: HandlerList = HandlerList()
-    }
+
 }

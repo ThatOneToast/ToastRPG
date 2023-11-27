@@ -41,7 +41,7 @@ class MonsterFactory : Listener {
 
 
     private fun handleMonsterSpawn(event: MonsterSpawnEvent) {
-        val handler = monsters[event.monster]
+        val handler = monsters[event.getMonster()]
         handler?.onMonsterSpawn(event)
     }
 

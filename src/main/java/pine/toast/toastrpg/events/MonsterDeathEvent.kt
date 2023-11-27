@@ -11,6 +11,8 @@ class MonsterDeathEvent(entity: LivingEntity, monster: Monster, monsterType: Mon
     private var entity: LivingEntity
     private var monster: Monster
     private var monsterType: MonsterType
+    private var cancelled = false
+    private val handlers = HandlerList()
 
     init {
         this.entity = entity
@@ -51,11 +53,7 @@ class MonsterDeathEvent(entity: LivingEntity, monster: Monster, monsterType: Mon
     }
 
     override fun getHandlers(): HandlerList {
-        return Companion.handlers
+        return handlers
     }
 
-    companion object {
-        private val handlers: HandlerList = HandlerList()
-        private var cancelled = false
-    }
 }

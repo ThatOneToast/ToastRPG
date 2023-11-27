@@ -7,33 +7,30 @@ import org.bukkit.event.HandlerList
 import pine.toast.toastrpg.monsters.Monster
 import pine.toast.toastrpg.monsters.MonsterType
 
-class MonsterSpawnEvent(livingEntity: LivingEntity?, monster: Monster, monsterType: MonsterType) : Event(),
+class MonsterSpawnEvent(
+    private val livingEntity: LivingEntity?, private val monster: Monster,
+    private val monsterType: MonsterType
+) : Event(),
 
     Cancellable {
-    private val monsterType: MonsterType
     private var cancelled = false
-    val entity: LivingEntity?
-        get() = livingEntity
+
+    private val handlers = HandlerList()
 
     fun getCancelled(): Boolean {
         return cancelled
     }
 
-    init {
-        Companion.livingEntity = livingEntity
-        Companion.monster = monster
-        this.monsterType = monsterType
-    }
-
-    val monster: Monster?
-        get() = Companion.monster
-
     fun getMonsterType(): MonsterType {
         return monsterType
     }
 
+    fun getMonster(): Monster {
+        return monster
+    }
+
     override fun getHandlers(): HandlerList {
-        return Companion.handlers
+        return handlers
     }
 
     override fun isCancelled(): Boolean {
@@ -44,11 +41,5 @@ class MonsterSpawnEvent(livingEntity: LivingEntity?, monster: Monster, monsterTy
         cancelled = cancel
     }
 
-    companion object {
-        private val handlers: HandlerList = HandlerList()
-        private var monster: Monster? = null
-        private var livingEntity: LivingEntity? = null
-        val handlerList: HandlerList
-            get() = handlers
-    }
+
 }

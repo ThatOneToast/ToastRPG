@@ -77,7 +77,7 @@ class HandleEntities : Listener {
         if (event.action.isLeftClick) {
             ToastRPG.getPassedPlugin()!!.server.pluginManager.callEvent(PlayerLeftClickEvent(player, mainHand, offHand, block, direction, isSneaking))
         } else if (event.action.isRightClick) {
-            ToastRPG.getPassedPlugin()!!.server.pluginManager.callEvent(PlayerRightCLickEvent(player, mainHand, offHand, block, direction, isSneaking))
+            ToastRPG.getPassedPlugin()!!.server.pluginManager.callEvent(PlayerRightClickEvent(player, mainHand, offHand, block, direction, isSneaking))
         }
     }
 

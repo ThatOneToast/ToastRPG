@@ -11,13 +11,13 @@ import org.bukkit.inventory.ItemStack
 import pine.toast.toastrpg.Keys
 import pine.toast.toastrpg.ToastRPG
 import pine.toast.toastrpg.events.PlayerLeftClickEvent
-import pine.toast.toastrpg.events.PlayerRightCLickEvent
+import pine.toast.toastrpg.events.PlayerRightClickEvent
 
 class SkillListener : Listener {
 
 
     @EventHandler
-    fun onRightClick(eventHandler: PlayerRightCLickEvent) {
+    fun onRightClick(eventHandler: PlayerRightClickEvent) {
         val item: ItemStack = eventHandler.getMainHand()
         val container = item.itemMeta.persistentDataContainer
 

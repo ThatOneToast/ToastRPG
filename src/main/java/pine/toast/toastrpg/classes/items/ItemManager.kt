@@ -14,7 +14,7 @@ import pine.toast.toastrpg.Keys
 import pine.toast.toastrpg.ToastRPG
 import pine.toast.toastrpg.colorapi.Colors
 import pine.toast.toastrpg.events.PlayerLeftClickEvent
-import pine.toast.toastrpg.events.PlayerRightCLickEvent
+import pine.toast.toastrpg.events.PlayerRightClickEvent
 
 class ItemManager : Listener {
     private val activeItems: HashMap<ItemStack, ItemHandler?> = HashMap()
@@ -90,7 +90,7 @@ class ItemManager : Listener {
         return itemStack
     }
 
-    private fun handleRightClick(item: ItemStack, event: PlayerRightCLickEvent) {
+    private fun handleRightClick(item: ItemStack, event: PlayerRightClickEvent) {
         val handler = activeItems[item]
         handler?.onPlayerRightClick(event)
     }
@@ -107,7 +107,7 @@ class ItemManager : Listener {
     }
 
     @EventHandler
-    private fun onRightClick(event: PlayerRightCLickEvent) {
+    private fun onRightClick(event: PlayerRightClickEvent) {
         val item: ItemStack = event.getMainHand()
         val itemContainer: PersistentDataContainer = item.itemMeta.persistentDataContainer
 

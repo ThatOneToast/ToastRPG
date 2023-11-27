@@ -2,7 +2,9 @@ package pine.toast.toastrpg.worldevents
 
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import pine.toast.toastrpg.ToastRPG
+import pine.toast.toastrpg.adapters.WorldEventTypeAdapter
 import pine.toast.toastrpg.events.WorldEventAlertEvent
 import pine.toast.toastrpg.events.WorldEventAlertNowEvent
 import java.io.File
@@ -35,7 +37,9 @@ class WorldEventManager {
       }
       worldEventsFile = worldEventsJson
 
-      val gson = Gson()
+      val gson = GsonBuilder()
+         .registerTypeAdapter(WorldEvent::class.java, WorldEventTypeAdapter())
+         .create()
       val events: List<WorldEvent>? = gson.fromJson(worldEventsJson.reader(), object : TypeToken<List<WorldEvent>>() {}.type)
 
       if (events != null) {

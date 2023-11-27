@@ -7,9 +7,11 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerItemBreakEvent
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataContainer
+import org.bukkit.plugin.PluginAwareness.Flags
 import pine.toast.toastrpg.Keys
 import pine.toast.toastrpg.ToastRPG
 import pine.toast.toastrpg.colorapi.Colors
@@ -66,6 +68,7 @@ class ItemManager : Listener {
 
         itemMeta.setCustomModelData(item.getCustomModelData())
         itemMeta.setDisplayName(item.getItemName())
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
         
         val lore = ArrayList<String>()
         lore.add(Colors.GOLD + "--- Item Description ---" + Colors.RESET)
@@ -131,7 +134,7 @@ class ItemManager : Listener {
         val item: ItemStack = event.getMainHand()
         val container: PersistentDataContainer = item.itemMeta.persistentDataContainer
         if (container.has(Keys.ITEM)) {
-            val itemObject: Item? = ToastRPG.getAdapterManager()?.let { container.get(Keys.ITEM, it.itemAdapter) }
+            val itemObject = container.get(Keys.ITEM, ToastRPG.getAdapterManager()!!.itemAdapter)
             if (itemObject != null) {
                 this.handleLeftClick(item, event)
             }

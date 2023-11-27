@@ -1,63 +1,12 @@
 package pine.toast.toastrpg.worldevents
 
-import com.google.common.reflect.TypeToken
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import pine.toast.toastrpg.ToastRPG
-import pine.toast.toastrpg.adapters.WorldEventTypeAdapter
 import pine.toast.toastrpg.events.WorldEventAlertEvent
 import pine.toast.toastrpg.events.WorldEventAlertNowEvent
-import java.io.File
 
 class WorldEventManager {
 
    private var scheduledWorldEvents: HashMap<WorldEvent, WorldEventTime> = HashMap()
-   private var worldEventsFile: File
-
-
-   init {
-//      val dataFolder = ToastRPG.getPassedPlugin()!!.dataFolder
-//      val libraryFolder = File(dataFolder, "ToastRPGLibrary").apply { mkdir() }
-//      val worldEventsJson = File(libraryFolder, "WorldEvents.json").apply { createNewFile() }
-      val dataFolder = ToastRPG.getPassedPlugin()?.dataFolder
-      val libraryFolder = File(dataFolder, "ToastRPGLibrary")
-
-      // Ensure that the ToastRPGLibrary directory exists or create it
-      if (!libraryFolder.exists() && !libraryFolder.mkdirs()) {
-         // Handle the case where directory creation fails
-         throw RuntimeException("Failed to create ToastRPGLibrary directory")
-      }
-
-      val worldEventsJson = File(libraryFolder, "WorldEvents.json")
-
-      // Ensure that the WorldEvents.json file exists or create it
-      if (!worldEventsJson.exists() && !worldEventsJson.createNewFile()) {
-         // Handle the case where file creation fails
-         throw RuntimeException("Failed to create WorldEvents.json file")
-      }
-      worldEventsFile = worldEventsJson
-
-      val gson = GsonBuilder()
-            .registerTypeAdapter(WorldEvent::class.java, WorldEventTypeAdapter())
-            .create()
-        val events: List<WorldEvent>? = gson.fromJson(worldEventsJson.reader(), object : TypeToken<List<WorldEvent>>() {}.type)
-
-        if (events != null) {
-            for (worldEvent in events) {
-                val worldEventTime: WorldEventTime = worldEvent.getSpawnTime()
-                scheduledWorldEvents[worldEvent] = worldEventTime
-            }
-            ToastRPG.getPassedPlugin()?.logger?.info("Loaded ${scheduledWorldEvents.size} world events.")
-        } else {
-            // Handle the case where deserialization failed or the file is empty.
-            ToastRPG.getPassedPlugin()?.logger?.warning("Failed to load world events. The JSON file may be empty or invalid.")
-        }
-
-      ToastRPG.getPassedPlugin()?.logger?.info(" - WorldEventManager ~ Passed")
-      
-
-
-   }
 
    private fun registerWorldEvent(worldEvent: WorldEvent) {
       val worldEventTime: WorldEventTime = worldEvent.getSpawnTime()
@@ -78,7 +27,6 @@ class WorldEventManager {
       val currentTime: Long = System.currentTimeMillis()
       registerWorldEvent(worldEvent)
       ToastRPG.getPassedPlugin()!!.logger.info("Started scheduling world event ${worldEvent.getName()}.")
-
 
       when {
          eventStartTime - currentTime > 86400000 -> ToastRPG.getPassedPlugin()!!.server.pluginManager.callEvent(
@@ -146,51 +94,6 @@ class WorldEventManager {
    fun getScheduledWorldEvents(): HashMap<WorldEvent, WorldEventTime> {
       return scheduledWorldEvents
    }
-
-   fun getWorldEventsFile(): File {
-      return worldEventsFile
-   }
-
-   /**
-    * Unregisters all world events.
-    * Clears the hash map.
-    * Saves to WorldEvents.json.
-    *
-    * @return true if the operation is successful, false otherwise.
-    */
-   fun unRegisterAllWorldEvents(): Boolean {
-      try {
-         if (!worldEventsFile.delete()) {
-            throw RuntimeException("Failed to delete existing WorldEvents.json file.")
-         }
-
-         if (!worldEventsFile.createNewFile()) {
-            throw RuntimeException("Failed to create a new WorldEvents.json file.")
-         }
-
-         saveWorldEventsToFile()
-         scheduledWorldEvents.clear()
-
-         return true
-      } catch (e: Exception) {
-         e.printStackTrace()
-         return false
-      }
-
-   }
-
-   private fun saveWorldEventsToFile() {
-      try {
-         val eventsList: List<WorldEvent> = scheduledWorldEvents.keys.toList()
-
-         val gson = Gson()
-         val json = gson.toJson(eventsList)
-         worldEventsFile.writeText(json)
-      } catch (e: Exception) {
-         e.printStackTrace()
-      }
-   }
-
 
 
 

@@ -60,12 +60,13 @@ class ItemManager : Listener {
         val itemMaterial: ItemMaterial = itemMaterialClass.getDeclaredConstructor().newInstance()
         val itemClass: Class<out Item> = itemMaterial.getItem()
         val item: Item = itemClass.getDeclaredConstructor().newInstance()
-
         val material: Material = itemMaterial.getMaterial()
         val itemStack = ItemStack(material)
         val itemMeta: ItemMeta = itemStack.itemMeta
+
         itemMeta.setCustomModelData(item.getCustomModelData())
         itemMeta.setDisplayName(item.getItemName())
+        
         val lore = ArrayList<String>()
         lore.add(Colors.GOLD + "--- Item Description ---" + Colors.RESET)
         lore.add("")
@@ -77,18 +78,20 @@ class ItemManager : Listener {
 
         val container: PersistentDataContainer = itemMeta.persistentDataContainer
         container.set(Keys.ITEM, ToastRPG.getAdapterManager()!!.itemAdapter, item)
+
         val damageModifier = AttributeModifier("damage", itemMaterial.getDamage(), AttributeModifier.Operation.ADD_NUMBER)
         val attackSpeedModifier = AttributeModifier("attackSpeed", itemMaterial.getAttackSpeed(), AttributeModifier.Operation.ADD_NUMBER)
         val armorModifier = AttributeModifier("armor", itemMaterial.getArmor(), AttributeModifier.Operation.ADD_NUMBER)
         val healthModifier = AttributeModifier("health", itemMaterial.getHealth(), AttributeModifier.Operation.ADD_NUMBER)
         val movementModifier = AttributeModifier("movement", itemMaterial.getMovementSpeed(), AttributeModifier.Operation.ADD_NUMBER)
+
         itemMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, damageModifier)
         itemMeta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, attackSpeedModifier)
         itemMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, armorModifier)
         itemMeta.addAttributeModifier(Attribute.GENERIC_MAX_HEALTH, healthModifier)
         itemMeta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, movementModifier)
-        itemStack.setItemMeta(itemMeta)
 
+        itemStack.setItemMeta(itemMeta)
 
         registerHandledItem(itemStack, item.getEventHandlerClass())
         return itemStack

@@ -3,28 +3,31 @@ package pine.toast.toastrpg.adapters
 import org.bukkit.persistence.PersistentDataAdapterContext
 import org.bukkit.persistence.PersistentDataType
 import pine.toast.toastrpg.monsters.Monster
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
+import java.io.Serializable
 
-class MonsterAdapter : PersistentDataType<Monster, Monster> {
-    @get:JvmName("getPrimitiveTypeMonster")
-    private val primitiveType: Class<Monster>
-        get() = Monster::class.java
-    @get:JvmName("getComplexTypeMonster")
-    private val complexType: Class<Monster>
-        get() = Monster::class.java
-
-    override fun fromPrimitive(complex: Monster, context: PersistentDataAdapterContext): Monster {
-        return complex // Implement this based on your requirement to retrieve Monster from a primitive form if needed.
-    }
-
-    override fun toPrimitive(complex: Monster, context: PersistentDataAdapterContext): Monster {
-        return complex // Implement this based on your requirement to convert Monster to a primitive form if needed.
-    }
-
-    override fun getPrimitiveType(): Class<Monster> {
-        return primitiveType
+class MonsterAdapter : PersistentDataType<ByteArray, Monster>, Serializable {
+    override fun getPrimitiveType(): Class<ByteArray> {
+        return ByteArray::class.java
     }
 
     override fun getComplexType(): Class<Monster> {
-        return complexType
+        return Monster::class.java
+    }
+
+    override fun fromPrimitive(primitive: ByteArray, context: PersistentDataAdapterContext): Monster {
+        val byteArrayInputStream = ByteArrayInputStream(primitive)
+        val objectInputStream = ObjectInputStream(byteArrayInputStream)
+        return objectInputStream.readObject() as Monster
+    }
+
+    override fun toPrimitive(complex: Monster, context: PersistentDataAdapterContext): ByteArray {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        val objectOutputStream = ObjectOutputStream(byteArrayOutputStream)
+        objectOutputStream.writeObject(complex)
+        return byteArrayOutputStream.toByteArray()
     }
 }

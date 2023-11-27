@@ -3,29 +3,31 @@ package pine.toast.toastrpg.adapters
 import org.bukkit.persistence.PersistentDataAdapterContext
 import org.bukkit.persistence.PersistentDataType
 import pine.toast.toastrpg.classes.items.Item
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 
 
-class ItemAdapter : PersistentDataType<Item, Item> {
-    @get:JvmName("getPrimitiveTypeItem")
-    private val primitiveType: Class<Item>
-        get() = Item::class.java
-    @get:JvmName("getComplexTypeItem")
-    private val complexType: Class<Item>
-        get() = Item::class.java
-
-    override fun toPrimitive(item: Item, persistentDataAdapterContext: PersistentDataAdapterContext): Item {
-        return item
-    }
-
-    override fun fromPrimitive(item: Item, persistentDataAdapterContext: PersistentDataAdapterContext): Item {
-        return item
-    }
-
-    override fun getPrimitiveType(): Class<Item> {
-        return primitiveType
+class ItemAdapter : PersistentDataType<ByteArray, Item> {
+    override fun getPrimitiveType(): Class<ByteArray> {
+        return ByteArray::class.java
     }
 
     override fun getComplexType(): Class<Item> {
-        return complexType
+        return Item::class.java
+    }
+
+    override fun fromPrimitive(primitive: ByteArray, context: PersistentDataAdapterContext): Item {
+        val byteArrayInputStream = ByteArrayInputStream(primitive)
+        val objectInputStream = ObjectInputStream(byteArrayInputStream)
+        return objectInputStream.readObject() as Item
+    }
+
+    override fun toPrimitive(complex: Item, context: PersistentDataAdapterContext): ByteArray {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        val objectOutputStream = ObjectOutputStream(byteArrayOutputStream)
+        objectOutputStream.writeObject(complex)
+        return byteArrayOutputStream.toByteArray()
     }
 }

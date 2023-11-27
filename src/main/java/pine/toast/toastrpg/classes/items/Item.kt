@@ -4,8 +4,8 @@ import pine.toast.toastrpg.classes.CharacterClass
 
 
 abstract class  Item(
-    itemName: String,
-    intendedClassUse: Class<out CharacterClass?>,
+    private val itemName: String,
+    private val intendedClassUse: Class<out CharacterClass?>,
     customModelData: Int,
     itemLevel: Int,
     itemMaxLevel: Int,
@@ -13,8 +13,6 @@ abstract class  Item(
     itemStats: List<String>,
     itemEventHandlerClass: Class<out ItemHandler?>
 ) {
-    private val itemName: String
-    private val intendedClassUse: Class<out CharacterClass?>
     private var customModelData: Int
     private var itemLevel: Int
     private val itemMaxLevel: Int
@@ -23,8 +21,6 @@ abstract class  Item(
     private var itemEventHandlerClass: Class<out ItemHandler?>
 
     init {
-        this.itemName = itemName
-        this.intendedClassUse = intendedClassUse
         this.customModelData = customModelData
         this.itemLevel = itemLevel
         this.itemMaxLevel = itemMaxLevel

@@ -12,7 +12,7 @@ class LevelManager {
     private var experienceUntilLevelUp = 105
 
     init {
-        print(" - LevelManager ~ Loaded")
+        ToastRPG.getPassedPlugin()!!.logger.info(" - LevelManager ~ Loaded")
     }
 
     /**

@@ -21,7 +21,7 @@ class ManaRegen {
     }
 
     init {
-        print(" - ManaRegen ~ Started")
+        ToastRPG.getPassedPlugin()!!.logger.info(" - ManaRegen ~ Started")
         startManaUpdateTask()
     }
 

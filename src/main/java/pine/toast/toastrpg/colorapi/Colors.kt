@@ -28,7 +28,8 @@ enum class Colors(val code: String) {
 
 
     operator fun plus(s: String): String {
-        return (this + s).replace("&", "§")
+        return "$code$s".replace("&", "§")
     }
+    
 
 }

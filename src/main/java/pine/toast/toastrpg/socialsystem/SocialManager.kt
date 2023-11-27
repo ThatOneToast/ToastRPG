@@ -4,6 +4,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
+import pine.toast.toastrpg.ToastRPG
 import java.util.*
 import java.util.function.Consumer
 
@@ -12,7 +13,7 @@ class SocialManager : Listener {
     private val nextMessageCallbacks: MutableMap<UUID, Consumer<String>?> = HashMap()
 
     init {
-        print(" - SocialManager ~ Loaded")
+        ToastRPG.getPassedPlugin()!!.logger.info(" - SocialManager ~ Loaded")
     }
 
     fun getNextMessageCallbacks(): Map<UUID, Consumer<String>?> = nextMessageCallbacks.toMap()

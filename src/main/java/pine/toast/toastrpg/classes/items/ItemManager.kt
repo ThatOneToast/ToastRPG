@@ -20,7 +20,7 @@ class ItemManager : Listener {
     private val activeItems: HashMap<ItemStack, ItemHandler?> = HashMap()
 
     init {
-        print(" - ItemManager ~ Started")
+        ToastRPG.getPassedPlugin()!!.logger.info(" - ItemManager ~ Started")
     }
 
     /**

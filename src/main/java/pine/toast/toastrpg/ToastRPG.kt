@@ -14,7 +14,7 @@ import pine.toast.toastrpg.worldevents.WorldEventManager
 
 object ToastRPG {
 
-    private const val VERSION = "v1.0.5-ALPHA-rev9"
+    private const val VERSION = "v1.0.6-ALPHA-pretest"
 
     private var passedPlugin: Plugin? = null
     private var entityManager: EntityManager? = null
@@ -36,10 +36,16 @@ object ToastRPG {
      *
      */
     fun passPluginToToast(plugin: Plugin) {
-        print("~~~~ ToastRPG: $VERSION ~~~~")
+        passedPlugin = plugin
+
+
+
         print(" - Loading... ")
 
-        passedPlugin = plugin
+        plugin.logger.info("~~~~ ToastRPG: $VERSION ~~~~")
+        plugin.logger.info(" - Loading... ")
+
+
         entityManager = EntityManager()
         monsterFactory = MonsterFactory()
         manaRegen = ManaRegen()
@@ -49,7 +55,7 @@ object ToastRPG {
         socialManager = SocialManager()
         worldEventManager = WorldEventManager()
 
-        print("~~~ ToastRPG: Validated! ~~~")
+        plugin.logger.info("~~~ ToastRPG: Validated! ~~~")
 
         passedPlugin!!.server.pluginManager.registerEvents(itemManager!!, this.passedPlugin!!)
         passedPlugin!!.server.pluginManager.registerEvents(monsterFactory!!, this.passedPlugin!!)

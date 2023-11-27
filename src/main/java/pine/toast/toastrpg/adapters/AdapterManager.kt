@@ -1,5 +1,7 @@
 package pine.toast.toastrpg.adapters
 
+import pine.toast.toastrpg.ToastRPG
+
 class AdapterManager {
     val monsterAdapter = MonsterAdapter()
     val monsterTypeAdapter = MonsterTypeAdapter()
@@ -9,6 +11,6 @@ class AdapterManager {
     val skillAdapter = SkillAdapter()
 
     init {
-        print(" - AdapterManager ~ Loaded")
+        ToastRPG.getPassedPlugin()!!.logger.info(" - AdapterManager ~ Loaded")
     }
 }

@@ -13,7 +13,7 @@ class MonsterFactory : Listener {
     private val monsters: MutableMap<Monster, EntityHandler> = HashMap()
 
     init {
-        print(" - MonsterFactory ~ Started")
+        ToastRPG.getPassedPlugin()!!.logger.info(" - MonsterFactory ~ Started")
     }
 
     /**

@@ -5,7 +5,8 @@ import org.bukkit.event.HandlerList
 import pine.toast.toastrpg.socialsystem.PlayerSocial
 
 class PlayerRespondFriendInvite(
-    private val sender: PlayerSocial, private val receiver: PlayerSocial,
+    private val sender: PlayerSocial,
+    private val receiver: PlayerSocial,
     private val response: Boolean
 ) : Event() {
     private val handlers = HandlerList()
@@ -18,11 +19,20 @@ class PlayerRespondFriendInvite(
         return receiver
     }
 
+    fun getResponse(): Boolean {
+        return response
+    }
+
     override fun getHandlers(): HandlerList {
-        return HANDLERS
+        return handlers
     }
 
     companion object {
         private val HANDLERS: HandlerList = HandlerList()
+
+        @JvmStatic
+        fun getHandlerList(): HandlerList {
+            return HANDLERS
+        }
     }
 }

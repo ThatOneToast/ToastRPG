@@ -7,6 +7,7 @@ import pine.toast.toastrpg.socialsystem.PlayerSocial
 class PlayerSendFriendInviteEvent(private val sender: PlayerSocial, private val receiver: PlayerSocial) : Event() {
 
     private val handlers = HandlerList()
+
     fun getSender(): PlayerSocial {
         return sender
     }
@@ -19,5 +20,12 @@ class PlayerSendFriendInviteEvent(private val sender: PlayerSocial, private val 
         return handlers
     }
 
+    companion object {
+        private val HANDLERS: HandlerList = HandlerList()
 
+        @JvmStatic
+        fun getHandlerList(): HandlerList {
+            return HANDLERS
+        }
+    }
 }

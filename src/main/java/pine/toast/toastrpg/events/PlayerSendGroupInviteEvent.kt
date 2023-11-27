@@ -27,5 +27,12 @@ class PlayerSendGroupInviteEvent(
         return handlers
     }
 
+    companion object {
+        private val HANDLERS: HandlerList = HandlerList()
 
+        @JvmStatic
+        fun getHandlerList(): HandlerList {
+            return HANDLERS
+        }
+    }
 }

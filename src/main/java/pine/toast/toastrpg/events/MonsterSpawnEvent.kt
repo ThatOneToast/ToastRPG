@@ -8,13 +8,11 @@ import pine.toast.toastrpg.monsters.Monster
 import pine.toast.toastrpg.monsters.MonsterType
 
 class MonsterSpawnEvent(
-    private val livingEntity: LivingEntity?, private val monster: Monster,
+    private val livingEntity: LivingEntity?,
+    private val monster: Monster,
     private val monsterType: MonsterType
-) : Event(),
-
-    Cancellable {
+) : Event(), Cancellable {
     private var cancelled = false
-
     private val handlers = HandlerList()
 
     fun getCancelled(): Boolean {
@@ -41,5 +39,12 @@ class MonsterSpawnEvent(
         cancelled = cancel
     }
 
+    companion object {
+        private val handlers = HandlerList()
 
+        @JvmStatic
+        fun getHandlerList(): HandlerList {
+            return handlers
+        }
+    }
 }

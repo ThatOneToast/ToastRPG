@@ -7,11 +7,12 @@ import pine.toast.toastrpg.socialsystem.PlayerSocial
 
 class PlayerRespondGroupInvite(
     private val sender: PlayerSocial,
-    private val receiver: PlayerSocial, private val group: Group?,
+    private val receiver: PlayerSocial,
+    private val group: Group?,
     private val response: Boolean
 ) :
-    Event() {
-    private val handlers = HandlerList()
+        Event() {
+            private val handlers = HandlerList()
 
     fun getSender(): PlayerSocial {
         return sender
@@ -25,8 +26,20 @@ class PlayerRespondGroupInvite(
         return group
     }
 
+    fun getResponse(): Boolean {
+        return response
+    }
+
     override fun getHandlers(): HandlerList {
         return handlers
     }
 
-}
+    companion object {
+        private val HANDLERS: HandlerList = HandlerList()
+
+        @JvmStatic
+        fun getHandlerList(): HandlerList {
+            return HANDLERS
+        }
+    }
+        }

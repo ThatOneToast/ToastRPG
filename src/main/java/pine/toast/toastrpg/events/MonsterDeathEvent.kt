@@ -56,4 +56,12 @@ class MonsterDeathEvent(entity: LivingEntity, monster: Monster, monsterType: Mon
         return handlers
     }
 
+    companion object {
+        private val handlers = HandlerList()
+
+        @JvmStatic
+        fun getHandlerList(): HandlerList {
+            return handlers
+        }
+    }
 }

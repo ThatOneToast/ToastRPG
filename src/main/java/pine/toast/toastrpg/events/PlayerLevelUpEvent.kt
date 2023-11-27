@@ -32,5 +32,12 @@ class PlayerLevelUpEvent(thePlayer: Player, theLevel: Int, theMaxLevel: Int, the
         return experience
     }
 
+    companion object {
+        private val handlers = HandlerList()
 
+        @JvmStatic
+        fun getHandlerList(): HandlerList {
+            return handlers
+        }
+    }
 }

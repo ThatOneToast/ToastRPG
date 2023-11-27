@@ -4,7 +4,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
-
 class PlayerGainExperienceEvent(
     private val player: Player,
     private val amount: Int,
@@ -29,4 +28,12 @@ class PlayerGainExperienceEvent(
         return handlers
     }
 
+    companion object {
+        private val handlers = HandlerList()
+
+        @JvmStatic
+        fun getHandlerList(): HandlerList {
+            return handlers
+        }
+    }
 }

@@ -7,7 +7,7 @@ import org.bukkit.event.HandlerList
 import org.bukkit.inventory.ItemStack
 import pine.toast.toastrpg.playerutils.PlayerDirection
 
-class PlayerRightCLickEvent(
+class PlayerRightClickEvent(
     private val player: Player,
     private val mainHand: ItemStack,
     private val offHand: ItemStack,
@@ -33,9 +33,20 @@ class PlayerRightCLickEvent(
         return direction
     }
 
+    fun isSneaking(): Boolean {
+        return isSneaking
+    }
+
     override fun getHandlers(): HandlerList {
         return handlers
     }
 
+    companion object {
+        private val HANDLERS: HandlerList = HandlerList()
 
+        @JvmStatic
+        fun getHandlerList(): HandlerList {
+            return HANDLERS
+        }
+    }
 }

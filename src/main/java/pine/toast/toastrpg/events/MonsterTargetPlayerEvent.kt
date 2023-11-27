@@ -7,8 +7,12 @@ import org.bukkit.event.HandlerList
 import pine.toast.toastrpg.monsters.Monster
 import pine.toast.toastrpg.monsters.MonsterType
 
-class MonsterTargetPlayerEvent(monster: Monster, monsterType: MonsterType, distance: Double, target: Player) : Event(),
-    Cancellable {
+class MonsterTargetPlayerEvent(
+    monster: Monster,
+    monsterType: MonsterType,
+    distance: Double,
+    target: Player
+) : Event(), Cancellable {
     private var cancelled: Boolean
     private var monster: Monster
     private var monsterType: MonsterType
@@ -56,5 +60,12 @@ class MonsterTargetPlayerEvent(monster: Monster, monsterType: MonsterType, dista
         return handlers
     }
 
+    companion object {
+        private val handlers = HandlerList()
 
+        @JvmStatic
+        fun getHandlerList(): HandlerList {
+            return handlers
+        }
+    }
 }

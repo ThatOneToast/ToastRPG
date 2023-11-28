@@ -14,7 +14,7 @@ import pine.toast.toastrpg.core.worldevents.WorldEventManager
 
 object ToastRPG {
 
-    private const val VERSION = "v1.0.6-ALPHA-pretest-patch12"
+    private const val VERSION = "v1.0.6-ALPHA"
 
     private var passedPlugin: Plugin? = null
     private var entityManager: EntityManager? = null

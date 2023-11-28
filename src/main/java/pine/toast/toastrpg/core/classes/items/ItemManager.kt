@@ -4,9 +4,7 @@ import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerItemBreakEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
@@ -18,46 +16,17 @@ import pine.toast.toastrpg.core.events.PlayerLeftClickEvent
 import pine.toast.toastrpg.core.events.PlayerRightClickEvent
 
 class ItemManager : Listener {
-    private val activeItems: HashMap<ItemStack, ItemHandler?> = HashMap()
 
     init {
         ToastRPG.getPassedPlugin()!!.logger.info(" - ItemManager ~ Started")
     }
 
     /**
-     * This function will register an item with the item manager.
-     * @param itemStack The item to register.
-     * @param handler The handler class for the item.
-     * @see ItemHandler
-     */
-    private fun registerHandledItem(itemStack: ItemStack, handler: Class<out ItemHandler?>) {
-        activeItems[itemStack] = handler.getDeclaredConstructor().newInstance()
-    }
-
-    /**
-     * This function will unregister an item with the item manager.
-     * @param item The item to unregister.
-     */
-    private fun unregisterHandledItem(item: ItemStack) {
-        activeItems.remove(item)
-    }
-
-    /**
-     * This function will check if an item is registered with the item manager.
-     * @param item The item to check.
-     * @return True if the item is registered, false otherwise.
-     */
-    private fun isItemRegistered(item: ItemStack): Boolean {
-        return activeItems.containsKey(item)
-    }
-
-
-    /**
      * This function will create an item and register it with the item manager.
      * @param itemMaterialClass The item material class to create the item from.
      * @return The item stack of the created item.
      */
-    fun createAndRegisterItem(itemMaterialClass: Class<out ItemMaterial>): ItemStack {
+    fun create(itemMaterialClass: Class<out ItemMaterial>): ItemStack {
         val itemMaterial: ItemMaterial = itemMaterialClass.getDeclaredConstructor().newInstance()
         val itemClass: Class<out Item> = itemMaterial.getItem()
         val item: Item = itemClass.getDeclaredConstructor().newInstance()
@@ -95,24 +64,28 @@ class ItemManager : Listener {
 
         itemStack.setItemMeta(itemMeta)
 
-        registerHandledItem(itemStack, item.getEventHandlerClass())
         return itemStack
     }
 
     private fun handleRightClick(item: ItemStack, event: PlayerRightClickEvent) {
-        val handler = activeItems[item]
-        handler?.onPlayerRightClick(event)
+        val itemClass = item.itemMeta.persistentDataContainer.get(TKeys.ITEM, ToastRPG.getAdapterManager()!!.itemAdapter)
+        val itemHandler = itemClass?.getEventHandlerClass();
+
+        if (itemHandler != null) {
+            val handler = itemHandler.getDeclaredConstructor().newInstance()
+            handler?.onPlayerRightClick(event)
+        }
+
     }
 
     private fun handleLeftClick(item: ItemStack, event: PlayerLeftClickEvent) {
-        val handler = activeItems[item]
-        handler?.onPlayerLeftClick(event)
-    }
+        val itemClass = item.itemMeta.persistentDataContainer.get(TKeys.ITEM, ToastRPG.getAdapterManager()!!.itemAdapter)
+        val itemHandler = itemClass?.getEventHandlerClass();
 
-    @EventHandler(priority = EventPriority.NORMAL)
-    private fun onItemBreak(event: PlayerItemBreakEvent) {
-        val item: ItemStack = event.brokenItem
-        if (isItemRegistered(item)) unregisterHandledItem(item)
+        if (itemHandler != null) {
+            val handler = itemHandler.getDeclaredConstructor().newInstance()
+            handler?.onPlayerLeftClick(event)
+        }
     }
 
     @EventHandler

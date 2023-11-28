@@ -5,7 +5,9 @@ import org.bukkit.persistence.PersistentDataContainer
 import pine.toast.toastrpg.core.TKeys
 import pine.toast.toastrpg.core.ToastRPG
 import pine.toast.toastrpg.core.colorapi.Colors
+import pine.toast.toastrpg.core.events.PlayerRespondFriendInvite
 import pine.toast.toastrpg.core.events.PlayerRespondGroupInvite
+import pine.toast.toastrpg.core.events.PlayerSendFriendInviteEvent
 import pine.toast.toastrpg.core.events.PlayerSendGroupInviteEvent
 import java.util.*
 import java.util.function.Consumer
@@ -19,7 +21,7 @@ class PlayerSocial(
     private var friends: Friends
     private var rank: String?
     private var permissions: MutableList<String>?
-    var friendInvites: MutableList<PlayerSocial?>
+    private var friendInvites: MutableList<PlayerSocial?>
     private var groupInvites: MutableList<PlayerSocial>
 
     init {
@@ -111,6 +113,49 @@ class PlayerSocial(
         } else {
             player.sendMessage(Colors.GRAY + "This player has already been invited to a group.")
         }
+    }
+
+    /**
+     * Sends a friend invite to the player.
+     * @param receiverSocial The player to send the friend invite to.
+     * Note: PlayerSendFriendInvite, and PlayerRespondFriendInvite events will be called due to this.
+     * Manage them how you wish.
+     */
+    fun sendFriendRequest(sender: PlayerSocial, receiverSocial: PlayerSocial) {
+        if (!receiverSocial.friendInvites.contains(sender)) {
+            val receiver: Player = receiverSocial.getPlayer()
+            val senderName = sender.getPlayer().name
+            val receiverName: String = receiver.name
+            val formattedMessage = "$senderName has requested to be your friend!"
+
+            receiver.sendMessage(formattedMessage)
+            friendInvites.add(receiverSocial)
+            receiverSocial.friendInvites.add(sender)
+            receiver.sendMessage("Please say 'friend accept' to join the group. ")
+
+            prepareResponse(receiver) { message: String ->
+                if (message.equals("friend accept", ignoreCase = true)) {
+                    sender.getFriends().addFriend(receiverSocial)
+                    receiverSocial.getFriends().addFriend(sender)
+                    receiverSocial.friendInvites.remove(sender)
+                    ToastRPG.getPassedPlugin()!!.server.pluginManager.callEvent(PlayerRespondFriendInvite(sender, receiverSocial, true))
+                    receiver.sendMessage(Colors.GRAY + "You have accepted the friend invitation.")
+                    sender.getPlayer().sendMessage(Colors.GRAY + receiverName + " has accepted your friend invitation.")
+                    friendInvites.remove(receiverSocial)
+                } else {
+                    receiverSocial.friendInvites.remove(sender)
+                    ToastRPG.getPassedPlugin()!!.server.pluginManager
+                        .callEvent(PlayerRespondFriendInvite(sender, receiverSocial, false))
+                    receiver.sendMessage(Colors.GRAY + "You have declined the friend invitation.")
+                    sender.getPlayer().sendMessage(Colors.GRAY + receiverName + " has declined your friend invitation.")
+                    friendInvites.remove(receiverSocial)
+                }
+            }
+        } else {
+            sender.getPlayer().sendMessage(Colors.GRAY + "You have already sent a friend request to this player.")
+        }
+
+        ToastRPG.getPassedPlugin()!!.server.pluginManager.callEvent(PlayerSendFriendInviteEvent(sender, receiverSocial))
     }
 
 

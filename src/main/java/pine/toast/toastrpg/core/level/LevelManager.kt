@@ -22,7 +22,7 @@ class LevelManager {
      * Note: If the player's experience is greater than or equal to the amount of experience needed to level up,
      * the player will proceed to the next level.
      */
-    private fun addExperience(player: Player, amount: Int) {
+    fun addExperience(player: Player, amount: Int) {
         val currentLevel: Int = player.persistentDataContainer.get(TKeys.LEVEL, PersistentDataType.INTEGER)!!
         val exp: Int = player.persistentDataContainer.get(TKeys.EXP, PersistentDataType.INTEGER)!!
         val maxLevel: Int = player.persistentDataContainer.get(TKeys.MAX_LEVEL, PersistentDataType.INTEGER)!!

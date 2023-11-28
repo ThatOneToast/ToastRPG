@@ -1,6 +1,7 @@
 package pine.toast.toastrpg.worldevents
 
 import pine.toast.toastrpg.ToastRPG
+import pine.toast.toastrpg.events.WorldEventAlertEvent
 import pine.toast.toastrpg.events.WorldEventAlertNowEvent
 import java.time.Instant
 import java.util.*
@@ -8,6 +9,17 @@ import java.util.*
 class WorldEventManager {
 
     private var scheduledWorldEvents: HashMap<WorldEvent, WorldEventTime> = HashMap()
+
+
+    fun areWeThereYet(destination: WorldEvent) {
+        val worldEvent: WorldEvent = scheduledWorldEvents.keys.find { it == destination }!!
+        val worldEventTime: WorldEventTime = scheduledWorldEvents[worldEvent]!!
+
+        if(worldEventTime.check()){
+            ToastRPG.getPassedPlugin()!!.server.pluginManager.callEvent(WorldEventAlertEvent(worldEvent, WorldEventStage.getStage(worldEventTime.getLastCheck())))
+        }
+    }
+
 
     private fun registerWorldEvent(worldEvent: WorldEvent) {
         val worldEventTime: WorldEventTime = worldEvent.getSpawnTime()

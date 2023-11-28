@@ -34,7 +34,8 @@ open class WorldEventTime(
    }
 
    fun check() : Boolean {
-        return System.currentTimeMillis() >= startDate.toEpochMilli()
+      lastCheck = System.currentTimeMillis()
+      return System.currentTimeMillis() >= startDate.toEpochMilli()
    }
 
    fun update() {

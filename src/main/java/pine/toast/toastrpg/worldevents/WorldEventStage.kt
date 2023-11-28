@@ -13,6 +13,7 @@ enum class WorldEventStage {
     ;
 
    companion object {
+
       fun getStage(time: Long): WorldEventStage {
          return when (time) {
             in 0 until 172800000 -> ONE_DAY

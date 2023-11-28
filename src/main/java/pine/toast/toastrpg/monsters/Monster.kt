@@ -13,19 +13,8 @@ abstract class Monster (
 
 ) : MonsterType(type.getName(), type.getHealth(), type.getDamage(), type.getDefense(), type.getSpeed(), type.getMonsterHandlerClass()) {
 
-    private lateinit var livingEntity: LivingEntity
-    private lateinit var monsterHandler: EntityHandler
-
-    init {
-        try {
-            livingEntity = livingEntityClass.getDeclaredConstructor().newInstance()
-            monsterHandler = getMonsterHandlerClass().getDeclaredConstructor().newInstance()
-            ToastRPG.getPassedPlugin()!!.logger.info("Pass -> $monsterName")
-        } catch (e: Exception) {
-            ToastRPG.getPassedPlugin()!!.logger.warning("Fail -> $monsterName")
-            ToastRPG.getPassedPlugin()!!.logger.warning(e.message)
-        }
-    }
+    private var livingEntity: LivingEntity = livingEntityClass.getDeclaredConstructor().newInstance()
+    private var monsterHandler: EntityHandler = getMonsterHandlerClass().getDeclaredConstructor().newInstance()
 
     fun create(): LivingEntity {
         val monsterType = type
@@ -43,8 +32,10 @@ abstract class Monster (
         if (speed != 0f) livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = speed.toDouble()
         livingEntity.persistentDataContainer.set(Keys.MONSTER_TYPE, ToastRPG.getAdapterManager()!!.monsterTypeAdapter, monsterType)
         ToastRPG.getMonsterFactory()!!.markMonster(this)
+
         return livingEntity
     }
+
 
     fun getLivingEntity(): LivingEntity {
         return livingEntity

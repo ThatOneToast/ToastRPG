@@ -1,5 +1,6 @@
 package pine.toast.toastrpg.worldevents
 
+import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -9,18 +10,19 @@ open class WorldEventTime(
    day: Int,
    hour: Int,
    minute: Int,
+   sec: Int,
 ) {
 
-   private val startDate: Long = LocalDateTime.of(year, month, day, hour, minute).toEpochSecond(ZoneOffset.UTC)
+   private val startDate: Instant = LocalDateTime.of(year, month, day, hour, minute, sec).toInstant(ZoneOffset.UTC)
    private var lastCheck: Long = 0
    private var expire: Boolean = false
 
-   fun getStartDate(): Long {
+   fun getStartDate(): Instant {
       return startDate
    }
 
    fun isExpired(): Boolean {
-      return expire
+      return !expire
    }
 
    fun setExpired() {
@@ -32,7 +34,7 @@ open class WorldEventTime(
    }
 
    fun check() : Boolean {
-        return System.currentTimeMillis() >= startDate
+        return System.currentTimeMillis() >= startDate.toEpochMilli()
    }
 
    fun update() {

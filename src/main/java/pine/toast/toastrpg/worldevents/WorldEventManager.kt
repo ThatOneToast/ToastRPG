@@ -2,6 +2,7 @@ package pine.toast.toastrpg.worldevents
 
 import pine.toast.toastrpg.ToastRPG
 import pine.toast.toastrpg.events.WorldEventAlertNowEvent
+import java.time.Instant
 import java.util.*
 
 class WorldEventManager {
@@ -23,18 +24,19 @@ class WorldEventManager {
      *
      */
     fun startWorldEvent(worldEvent: WorldEvent, tickPerSc: Int = 50) {
-        val eventStartTime: Long = worldEvent.getSpawnTime().getStartDate()
-        val currentTime: Long = System.currentTimeMillis()
+        val eventStartTime: Instant = worldEvent.getSpawnTime().getStartDate()
+        val currentTime: Instant = Instant.now()
 
-        if(Date.from(worldEvent.getInstant()).before(Date.from(Date().toInstant()))){
-            ToastRPG.getPassedPlugin()!!.logger.info("World event ${worldEvent.getName()} has expired before scheduling.")
+
+        if(Date.from(worldEvent.getSpawnTime().getStartDate()).before(Date.from(Date().toInstant()))){
+            ToastRPG.getPassedPlugin()!!.logger.warning("World event ${worldEvent.getName()} has expired before scheduling.")
             return
         }
 
         registerWorldEvent(worldEvent)
         ToastRPG.getPassedPlugin()!!.logger.info("Started scheduling world event ${worldEvent.getName()}.")
 
-        val delayMillis = eventStartTime - currentTime
+        val delayMillis = eventStartTime.toEpochMilli() - currentTime.toEpochMilli()
 
         ToastRPG.getPassedPlugin()!!.server.scheduler.scheduleSyncDelayedTask(
             ToastRPG.getPassedPlugin()!!,

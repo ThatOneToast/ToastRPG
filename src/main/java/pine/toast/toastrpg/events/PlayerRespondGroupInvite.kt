@@ -10,9 +10,8 @@ class PlayerRespondGroupInvite(
     private val receiver: PlayerSocial,
     private val group: Group?,
     private val response: Boolean
-) :
-        Event() {
-            private val handlers = HandlerList()
+) : Event() {
+    private val handlers = HandlerList()
 
     fun getSender(): PlayerSocial {
         return sender

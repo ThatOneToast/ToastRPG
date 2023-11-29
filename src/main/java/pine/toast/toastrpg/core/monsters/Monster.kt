@@ -1,13 +1,15 @@
 package pine.toast.toastrpg.core.monsters
 
+import org.bukkit.Location
 import org.bukkit.attribute.Attribute
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
 import pine.toast.toastrpg.core.TKeys
 import pine.toast.toastrpg.core.ToastRPG
 import pine.toast.toastrpg.core.entities.EntityHandler
 
 abstract class Monster (
-    private var entity: LivingEntity,
+    private var entity: EntityType,
     private var type: MonsterType,
     private var monsterName: String
 
@@ -17,7 +19,9 @@ abstract class Monster (
 
     fun create(): LivingEntity {
         val monsterType = type
-        val livingEntity = entity
+        val dummyLocation = Location(null, 0.0, 0.0, 0.0)
+        val livingEntity: LivingEntity = dummyLocation.world?.spawnEntity(dummyLocation, entity) as LivingEntity
+
 
         val health = monsterType.getHealth()
         val damage = monsterType.getDamage()
@@ -40,7 +44,7 @@ abstract class Monster (
     }
 
 
-    fun getLivingEntity(): LivingEntity {
+    fun getEntityType(): EntityType {
         return entity
     }
 

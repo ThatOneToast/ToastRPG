@@ -3,6 +3,7 @@ package pine.toast.toastrpg.core.monsters
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import pine.toast.toastrpg.core.TKeys
 import pine.toast.toastrpg.core.ToastRPG
 import pine.toast.toastrpg.core.entities.EntityHandler
 import pine.toast.toastrpg.core.events.MonsterDeathEvent
@@ -31,7 +32,7 @@ class MonsterFactory : Listener {
      * @return True if the living entity is a monster.
      */
     fun isMonster(livingEntity: LivingEntity): Boolean {
-        return monsters.keys.any { it.getLivingEntity() == livingEntity }
+        return livingEntity.persistentDataContainer.has(TKeys.MONSTER_TYPE, ToastRPG.getAdapterManager()!!.monsterTypeAdapter)
     }
 
     /**
@@ -39,7 +40,15 @@ class MonsterFactory : Listener {
      * @param livingEntity The living entity to get the monster from.
      */
     fun getMonster(livingEntity: LivingEntity): Monster {
-        return monsters.keys.first { it.getLivingEntity() == livingEntity }
+        val monsterType: MonsterType = livingEntity.persistentDataContainer.get(TKeys.MONSTER_TYPE, ToastRPG.getAdapterManager()!!.monsterTypeAdapter)!!
+        for (monster in monsters.keys) {
+            if (monster.getType() == monsterType) {
+                return monster
+            }
+        }
+
+        throw NullPointerException("Monster not found")
+
     }
 
 

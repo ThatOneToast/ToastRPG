@@ -7,22 +7,24 @@ import pine.toast.toastrpg.core.ToastRPG
 import pine.toast.toastrpg.core.entities.EntityHandler
 
 abstract class Monster (
-    livingEntityClass: Class<out LivingEntity>,
+    private var entity: LivingEntity,
     private var type: MonsterType,
     private var monsterName: String
 
 ) : MonsterType(type.getName(), type.getHealth(), type.getDamage(), type.getDefense(), type.getSpeed(), type.getMonsterHandlerClass()) {
 
     private var monsterHandler: EntityHandler = getMonsterHandlerClass().getDeclaredConstructor().newInstance()
-    private var livingEntity: LivingEntity = livingEntityClass.getConstructor().newInstance()
-
 
     fun create(): LivingEntity {
         val monsterType = type
+        val livingEntity = entity
+
         val health = monsterType.getHealth()
         val damage = monsterType.getDamage()
         val defense = monsterType.getDefense()
         val speed = monsterType.getSpeed()
+
+
         livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue = health.toDouble()
         livingEntity.health = health.toDouble()
 
@@ -39,7 +41,7 @@ abstract class Monster (
 
 
     fun getLivingEntity(): LivingEntity {
-        return livingEntity
+        return entity
     }
 
     fun getType(): MonsterType {

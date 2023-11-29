@@ -3,6 +3,7 @@ description: >-
   Just learn about ToastRPG? Follow this quick and easy guide to get started.
   This guide works under the assumption you know basic java, and can
   create/navigate through a project.
+  Visit the Gitbook --> https://toast-foundation.gitbook.io/toastrpg-docs/group-1/toastrpg-getting-started
 ---
 
 # ToastRPG - Getting Started!

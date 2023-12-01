@@ -5,13 +5,12 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import pine.toast.toastrpg.core.TKeys
 import pine.toast.toastrpg.core.ToastRPG
-import pine.toast.toastrpg.core.entities.EntityHandler
 import pine.toast.toastrpg.core.events.MonsterDeathEvent
 import pine.toast.toastrpg.core.events.MonsterSpawnEvent
 import pine.toast.toastrpg.core.events.MonsterTargetPlayerEvent
 
 class MonsterFactory : Listener {
-    private val monsters: MutableMap<Monster, EntityHandler> = HashMap()
+    private val monsters: MutableMap<Monster, LivingEntity> = HashMap()
 
     init {
         ToastRPG.getPassedPlugin()!!.logger.info(" - MonsterFactory ~ Started")
@@ -22,8 +21,8 @@ class MonsterFactory : Listener {
      * And registers their handlers.
      * @param monster The monster to mark.
      */
-    fun markMonster(monster: Monster) {
-        monsters[monster] = monster.getMonsterHandler()
+    fun markMonster(monster: Monster, entity: LivingEntity) {
+        monsters[monster] = entity
     }
 
     /**
@@ -52,18 +51,19 @@ class MonsterFactory : Listener {
     }
 
 
+
     private fun handleMonsterSpawn(event: MonsterSpawnEvent) {
-        val handler = monsters[event.getMonster()]
+        val handler = event.getMonsterType().getMonsterHandlerClass().getDeclaredConstructor().newInstance()
         handler?.onMonsterSpawn(event)
     }
 
     private fun handleMonsterDeath(event: MonsterDeathEvent) {
-        val handler = monsters[event.getMonster()]
+        val handler = event.getMonsterType().getMonsterHandlerClass().getDeclaredConstructor().newInstance()
         handler?.onMonsterDeath(event)
     }
 
     private fun handlerMonsterTarget(event: MonsterTargetPlayerEvent) {
-        val handler = monsters[event.getMonster()]
+        val handler = event.getMonsterType().getMonsterHandlerClass().getDeclaredConstructor().newInstance()
         handler?.onMonsterTarget(event)
     }
 

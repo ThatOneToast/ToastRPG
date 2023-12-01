@@ -38,7 +38,7 @@ abstract class Monster (
         livingEntity.getAttribute(Attribute.GENERIC_ARMOR)?.baseValue = defense
         if (speed != 0f) livingEntity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = speed.toDouble()
         livingEntity.persistentDataContainer.set(TKeys.MONSTER_TYPE, ToastRPG.getAdapterManager()!!.monsterTypeAdapter, monsterType)
-        ToastRPG.getMonsterFactory()!!.markMonster(this)
+        ToastRPG.getMonsterFactory()!!.markMonster(this, livingEntity)
 
         return livingEntity
     }

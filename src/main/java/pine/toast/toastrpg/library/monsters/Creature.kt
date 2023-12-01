@@ -135,7 +135,7 @@ abstract class Creature(
         return Component.text(name)
     }
 
-    fun getEntityClass(): Class<Entity> {
+    fun getEntityClass(): Class<out Entity> {
         return entityClass
     }
 

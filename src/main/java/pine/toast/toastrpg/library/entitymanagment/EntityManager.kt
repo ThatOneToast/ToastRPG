@@ -106,16 +106,119 @@ object EntityManager : Listener {
     }
 
     @EventHandler
-    private fun onEntityEvent(event: EntityEvent) {
+    private fun onEntityExplode(event: EntityExplodeEvent) {
         handleEntityEvent(event.entity, event)
     }
 
     @EventHandler
-    private fun onLivingEntityEvent(event: EntityEvent) {
-        if (event.entity is LivingEntity) {
-            handleLivingEntityEvent(event.entity as LivingEntity, event)
-        }
+    private fun onEntityInteract(event: EntityInteractEvent) {
+        handleEntityEvent(event.entity, event)
     }
+
+    // Add other event handlers similarly
+    @EventHandler
+    private fun onEntityPortalEnter(event: EntityPortalEnterEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityPortal(event: EntityPortalEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityPortalExit(event: EntityPortalExitEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityChangeBlock(event: EntityChangeBlockEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityCombust(event: EntityCombustEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityRegainHealth(event: EntityRegainHealthEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityShootBow(event: EntityShootBowEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityToggleGlide(event: EntityToggleGlideEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityPotionEffect(event: EntityPotionEffectEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityAddToWorld(event: EntityAddToWorldEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityRemoveFromWorld(event: EntityRemoveFromWorldEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityPortalCreate(event: EntityPortalReadyEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityPickupItem(event: EntityPickupItemEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityDropItem(event: EntityDropItemEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityResurrect(event: EntityResurrectEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityEnterLoveMode(event: EntityEnterLoveModeEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityTame(event: EntityTameEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityUnleash(event: EntityUnleashEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityTeleport(event: EntityTeleportEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+    @EventHandler
+    private fun onEntityDamageByBlock(event: EntityDamageByBlockEvent) {
+        handleEntityEvent(event.entity, event)
+    }
+
+
+
+
 
 
 

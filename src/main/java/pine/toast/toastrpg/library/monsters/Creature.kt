@@ -11,7 +11,8 @@ import pine.toast.toastrpg.library.entitymanagment.LivingEntityHandler
 
 abstract class Creature(
     private var name: String,
-    entityClass: Class<Entity>,
+    private var entityClass: Class<Entity>,
+    private var isAlive: Boolean,
     private var handler: EntityHandler?,
     private var maxHealth: Double,
     private var armor: Double,
@@ -28,13 +29,15 @@ abstract class Creature(
 
 ) {
 
-    var entity: LivingEntity = entityClass.getDeclaredConstructor().newInstance() as LivingEntity
+
 
     /**
-     * Spawns the creature at the given location with the given attributes.
+     * Spawns the creature at the given location with the given attributes. This ass
      * @param location The location to spawn the creature at
      */
     fun spawn(location: Location) {
+
+        val entity = entityClass.getDeclaredConstructor().newInstance() as LivingEntity
         entity.customName(nameToComponent())
         entity.isCustomNameVisible = displayName
         entity.isPersistent = persistent
@@ -56,7 +59,6 @@ abstract class Creature(
 
         entity.teleport(location)
 
-
     }
 
     /**
@@ -64,13 +66,6 @@ abstract class Creature(
      */
     fun getName(): String {
         return name
-    }
-
-    /**
-     * Get the LivingEntity instance representing the creature.
-     */
-    fun getEntity(): LivingEntity {
-        return entity
     }
 
     /**
@@ -138,6 +133,10 @@ abstract class Creature(
 
     private fun nameToComponent(): Component {
         return Component.text(name)
+    }
+
+    fun getEntityClass(): Class<Entity> {
+        return entityClass
     }
 
 

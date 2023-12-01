@@ -11,7 +11,7 @@ import pine.toast.toastrpg.library.entitymanagment.LivingEntityHandler
 
 abstract class Creature(
     private var name: String,
-    private var entityClass: Class<Entity>,
+    private var entityClass: Class<out Entity>,
     private var isAlive: Boolean,
     private var handler: EntityHandler?,
     private var maxHealth: Double,

@@ -10,7 +10,7 @@ class Extras : Listener {
     @EventHandler
     private fun onPlayerJoin(event: PlayerJoinEvent) {
         if (!event.player.hasPlayedBefore()) {
-            val social = Social(event.player,
+            val social = Social(event.player.uniqueId,
                 1,
                 100,
                 0,

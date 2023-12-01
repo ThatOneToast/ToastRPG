@@ -1,13 +1,15 @@
 package pine.toast.toastrpg.library.socialsystem
 
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import pine.toast.toastrpg.library.Colors
 import pine.toast.toastrpg.library.ToastRPG
 import pine.toast.toastrpg.library.events.PlayerLevelUpEvent
 import java.io.Serializable
+import java.util.*
 
 class Social(
-    private var player: Player,
+    playerUUID: UUID,
     private var level: Int,
     private var maxLevel: Int,
     private var experience: Int,
@@ -19,6 +21,7 @@ class Social(
     private lateinit var friends: MutableList<Social>
     private lateinit var pendingInvites: MutableList<Social>
     private lateinit var clan: Clan
+    private var player: Player = Bukkit.getPlayer(playerUUID)!!
 
     /**
      * Returns a copy of the players, friends

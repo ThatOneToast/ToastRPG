@@ -1,4 +1,4 @@
-package pine.toast.toastrpg.core.colorapi
+package pine.toast.toastrpg.library
 
 enum class Colors(val code: String) {
     // Text color

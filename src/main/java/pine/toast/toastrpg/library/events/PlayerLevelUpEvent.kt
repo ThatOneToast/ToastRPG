@@ -1,4 +1,4 @@
-package pine.toast.toastrpg.core.events
+package pine.toast.toastrpg.library.events
 
 import org.bukkit.entity.Player
 import org.bukkit.event.Event

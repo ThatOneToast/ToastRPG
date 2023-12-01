@@ -9,13 +9,14 @@ object ToastRPG {
     
     private var plugin: Plugin? = null
     private var adapters: AdapterManager? = null
-    
+
     
     fun passPluginToToast(passedPlugin: Plugin) {
         plugin = passedPlugin
         adapters = AdapterManager()
 
         plugin!!.server.pluginManager.registerEvents(EntityManager, plugin!!)
+        plugin!!.server.pluginManager.registerEvents(Extras(), plugin!!)
 
     }
     
@@ -26,5 +27,7 @@ object ToastRPG {
     fun getAdapters(): AdapterManager? {
         return adapters
     }
+
+
 }
 

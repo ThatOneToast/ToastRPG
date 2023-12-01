@@ -105,6 +105,7 @@ object EntityManager : Listener {
         }
     }
 
+
     @EventHandler
     private fun onEntityExplode(event: EntityExplodeEvent) {
         handleEntityEvent(event.entity, event)
@@ -217,11 +218,40 @@ object EntityManager : Listener {
     }
 
 
+    @EventHandler
+    private fun onEntityDamageByEntityEvent(event: EntityDamageByEntityEvent) {
+        handleLivingEntityEvent(event.entity as LivingEntity, event)
+    }
 
+    @EventHandler
+    private fun onEntityDeath(event: EntityDeathEvent) {
+        handleLivingEntityEvent(event.entity, event)
+    }
 
+    @EventHandler
+    private fun onFoodLevelChangeEvent(event: FoodLevelChangeEvent) {
+        handleLivingEntityEvent(event.entity as LivingEntity, event)
+    }
 
+    @EventHandler
+    private fun onEntityBreed(event: EntityBreedEvent) {
+        handleLivingEntityEvent(event.entity, event)
+    }
 
+    @EventHandler
+    private fun onEntityDamage(event: EntityDamageEvent) {
+        handleLivingEntityEvent(event.entity as LivingEntity, event)
+    }
 
+    @EventHandler
+    private fun onEntityTargetLiving(event: EntityTargetLivingEntityEvent) {
+        handleLivingEntityEvent(event.entity as LivingEntity, event)
+    }
+
+    @EventHandler
+    private fun onEntityTarget(event: EntityTargetEvent) {
+        handleLivingEntityEvent(event.entity as LivingEntity, event)
+    }
 
 
 }

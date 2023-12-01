@@ -21,8 +21,8 @@ class Social(
     private lateinit var friends: MutableList<Social>
     private lateinit var pendingInvites: MutableList<Social>
     private lateinit var clan: Clan
-    @Transient
     private var player: Player = Bukkit.getPlayer(playerUUID)!!
+
 
     /**
      * Returns a copy of the players, friends

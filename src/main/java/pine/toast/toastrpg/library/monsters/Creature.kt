@@ -3,14 +3,16 @@ package pine.toast.toastrpg.library.monsters
 import net.kyori.adventure.text.Component
 import org.bukkit.Location
 import org.bukkit.attribute.Attribute
+import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
+import pine.toast.toastrpg.library.entitymanagment.EntityHandler
 import pine.toast.toastrpg.library.entitymanagment.EntityManager
 import pine.toast.toastrpg.library.entitymanagment.LivingEntityHandler
 
 abstract class Creature(
     private var name: String,
-    private var entity: LivingEntity,
-    private var handler: LivingEntityHandler?,
+    entityClass: Class<Entity>,
+    private var handler: EntityHandler?,
     private var maxHealth: Double,
     private var armor: Double,
 
@@ -25,6 +27,8 @@ abstract class Creature(
 
 
 ) {
+
+    var entity: LivingEntity = entityClass.getDeclaredConstructor().newInstance() as LivingEntity
 
     /**
      * Spawns the creature at the given location with the given attributes.
@@ -43,7 +47,12 @@ abstract class Creature(
         entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = speed
         entity.health = maxHealth
 
-        if (handler != null ) EntityManager.injectLivingEntityHandler(entity, handler!!)
+        if (handler is LivingEntityHandler) {
+            EntityManager.injectLivingEntityHandler(entity, handler as LivingEntityHandler)
+        }
+        else if (handler is EntityHandler) {
+            EntityManager.injectEntityHandler(entity, handler as EntityHandler)
+        }
 
         entity.teleport(location)
 
@@ -67,7 +76,7 @@ abstract class Creature(
     /**
      * Get the LivingEntityHandler assigned to the creature.
      */
-    fun getHandler(): LivingEntityHandler? {
+    fun getHandler(): EntityHandler? {
         return handler
     }
 

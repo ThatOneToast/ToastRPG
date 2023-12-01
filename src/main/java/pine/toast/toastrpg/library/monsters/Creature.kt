@@ -12,7 +12,7 @@ import pine.toast.toastrpg.library.entitymanagment.LivingEntityHandler
 abstract class Creature(
     private var name: String,
     private var entityClass: Class<out LivingEntity>,
-    private var handler: EntityHandler?,
+    private var handler: LivingEntityHandler?,
     private var maxHealth: Double,
     private var armor: Double,
 
@@ -38,7 +38,6 @@ abstract class Creature(
 
         val entity = location.world.spawn(location, entityClass)
 
-
         entity.customName(nameToComponent())
         entity.isCustomNameVisible = displayName
         entity.isPersistent = persistent
@@ -51,12 +50,7 @@ abstract class Creature(
         entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.baseValue = speed
         entity.health = maxHealth
 
-        if (handler is LivingEntityHandler) {
-            EntityManager.injectLivingEntityHandler(entity, handler as LivingEntityHandler)
-        }
-        else if (handler is EntityHandler) {
-            EntityManager.injectEntityHandler(entity, handler as EntityHandler)
-        }
+        if (handler != null) EntityManager.injectLivingEntityHandler(entity, handler!!)
 
         entity.teleport(location)
 

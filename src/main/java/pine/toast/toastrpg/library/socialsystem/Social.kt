@@ -18,9 +18,9 @@ class Social(
 ) : Serializable {
 
 
-    private lateinit var friends: MutableList<Social>
-    private lateinit var pendingInvites: MutableList<Social>
-    private lateinit var clan: Clan
+    private var friends: MutableList<Social> = mutableListOf()
+    private var pendingInvites: MutableList<Social> = mutableListOf()
+    private var clan: Clan? = null
     @Transient private var player: Player = Bukkit.getPlayer(playerUUID)!!
 
 
@@ -109,13 +109,14 @@ class Social(
     }
 
     fun leaveClan() {
-        for (member in this.clan.getMembers()) {
+        if (clan == null) return
+        for (member in this.clan!!.getMembers()) {
             if (!member.getPlayer().isOnline) return
             member.getPlayer().sendMessage(
                 (Colors.GREEN + this.getPlayer().name + Colors.GRAY) + " has left the clan."
             )
         }
-        clan.removeMember(this); this.clan
+        clan!!.removeMember(this); this.clan
     }
 
 
